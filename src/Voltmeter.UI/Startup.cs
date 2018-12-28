@@ -32,6 +32,8 @@ namespace Voltmeter.UI
                 return settings;
             });
 
+            services.AddSingleton<IEnvironmentStatusRetriever, EnvironmentStatusRetriever>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

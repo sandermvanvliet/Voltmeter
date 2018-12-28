@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Voltmeter.UI.Controllers;
 using Voltmeter.UI.Models;
 using Xunit;
@@ -9,10 +10,12 @@ namespace Voltmeter.UI.Tests.Unit
     public class WhenDisplayingForEnvironment
     {
         private readonly HomeController _controller;
+        private readonly Mock<IEnvironmentStatusRetriever> _statusRetrieverMock;
 
         public WhenDisplayingForEnvironment()
         {
-            _controller = new HomeController(new VoltmeterSettings { DefaultEnvironmentName = "defaultEnv" });
+            _statusRetrieverMock = new Mock<IEnvironmentStatusRetriever>();
+            _controller = new HomeController(new VoltmeterSettings { DefaultEnvironmentName = "defaultEnv" }, _statusRetrieverMock.Object);
         }
 
         private const string EnvironmentName = "production";
@@ -83,6 +86,9 @@ namespace Voltmeter.UI.Tests.Unit
 
         private void GivenDetailsFor(string environmentName)
         {
+            _statusRetrieverMock
+                .Setup(s => s.GetFor(It.Is<string>(e => e == environmentName)))
+                .Returns(new [] { new ApplicationStatus() });
         }
     }
 }

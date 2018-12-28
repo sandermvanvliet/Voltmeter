@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Voltmeter.UI.Models;
 
@@ -6,10 +7,12 @@ namespace Voltmeter.UI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEnvironmentStatusRetriever _retriever;
         private readonly string _defaultEnvironmentName;
 
-        public HomeController(VoltmeterSettings settings)
+        public HomeController(VoltmeterSettings settings, IEnvironmentStatusRetriever retriever)
         {
+            _retriever = retriever;
             _defaultEnvironmentName = settings.DefaultEnvironmentName;
         }
 
@@ -21,13 +24,12 @@ namespace Voltmeter.UI.Controllers
                 environmentName = _defaultEnvironmentName;
             }
 
+            var applicationStatuses = _retriever.GetFor(environmentName);
+
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
-                Applications = new []
-                {
-                    new ApplicationModel()
-                },
+                Applications = applicationStatuses.Select(a => new ApplicationModel { Name = a.ToString() }).ToArray(),
                 Edges = new DependencyModel[0]
             };
 
