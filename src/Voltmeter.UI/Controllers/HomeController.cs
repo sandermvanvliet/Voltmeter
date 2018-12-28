@@ -29,7 +29,7 @@ namespace Voltmeter.UI.Controllers
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
-                Applications = applicationStatuses.Select(a => new ApplicationModel { Name = a.ToString() }).ToArray(),
+                Applications = ApplicationModel.FromStatuses(applicationStatuses),
                 Edges = new DependencyModel[0]
             };
 
