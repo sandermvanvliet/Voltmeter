@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Voltmeter.UI.Models;
 
@@ -10,9 +6,17 @@ namespace Voltmeter.UI.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string environmentName = "production")
         {
-            return View();
+            var model = new EnvironmentStatusModel
+            {
+                Applications = new []
+                {
+                    new ApplicationModel()
+                }
+            };
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
