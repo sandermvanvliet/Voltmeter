@@ -1,0 +1,10 @@
+version: 1.0.{build}
+environment:
+  Build.BuildNumber: $(APPVEYOR_BUILD_VERSION)
+  
+build_script:
+- ps: .\build.ps1 -Target Build-Release
+
+artifacts:
+- path: artifacts/*.zip
+  name: UI
