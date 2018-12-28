@@ -24,15 +24,20 @@ namespace Voltmeter.UI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSingleton(_ =>
+            {
+                var configuration = _.GetService<IConfiguration>();
+                var settings = new VoltmeterSettings();
+                configuration.Bind(settings);
+                return settings;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, VoltmeterSettings settings)
         {
-            var defaultEnvironmentName = "production";
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -48,7 +53,7 @@ namespace Voltmeter.UI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{environmentName=" + defaultEnvironmentName + "}");
+                    template: "{controller=Home}/{action=Index}/{environmentName=" + settings.DefaultEnvironmentName + "}");
             });
         }
     }

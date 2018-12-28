@@ -12,7 +12,7 @@ namespace Voltmeter.UI.Tests.Unit
 
         public WhenDisplayingForEnvironment()
         {
-            _controller = new HomeController();
+            _controller = new HomeController(new VoltmeterSettings { DefaultEnvironmentName = "defaultEnv" });
         }
 
         private const string EnvironmentName = "production";
@@ -78,7 +78,7 @@ namespace Voltmeter.UI.Tests.Unit
                 .Which
                 .Environment
                 .Should()
-                .Be(EnvironmentName);
+                .Be("defaultEnv");
         }
 
         private void GivenDetailsFor(string environmentName)

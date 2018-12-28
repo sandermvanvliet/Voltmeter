@@ -6,14 +6,19 @@ namespace Voltmeter.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private const string DefaultEnvironmentName = "production";
+        private readonly string _defaultEnvironmentName;
+
+        public HomeController(VoltmeterSettings settings)
+        {
+            _defaultEnvironmentName = settings.DefaultEnvironmentName;
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index(string environmentName)
         {
             if (environmentName == null)
             {
-                environmentName = DefaultEnvironmentName;
+                environmentName = _defaultEnvironmentName;
             }
 
             var model = new EnvironmentStatusModel
