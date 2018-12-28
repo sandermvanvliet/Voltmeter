@@ -31,6 +31,8 @@ namespace Voltmeter.UI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var defaultEnvironmentName = "production";
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,7 +48,7 @@ namespace Voltmeter.UI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{environmentName=?}");
+                    template: "{controller=Home}/{action=Index}/{environmentName=" + defaultEnvironmentName + "}");
             });
         }
     }

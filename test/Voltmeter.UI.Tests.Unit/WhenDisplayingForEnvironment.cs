@@ -47,6 +47,40 @@ namespace Voltmeter.UI.Tests.Unit
                 .NotBeEmpty();
         }
 
+        [Fact]
+        public void GivenDetailsForProductionAndEnvironmentNameIsProduction_ModelContainsEnvironmentName()
+        {
+            GivenDetailsFor(EnvironmentName);
+
+            var result = _controller.Index(EnvironmentName) as ViewResult;
+
+            result
+                .Model
+                .Should()
+                .BeOfType<EnvironmentStatusModel>()
+                .Which
+                .Environment
+                .Should()
+                .Be(EnvironmentName);
+        }
+
+        [Fact]
+        public void GivenDetailsForProductionAndEnvironmentNameIsNull_ModelContainsDefaultEnvironmentName()
+        {
+            GivenDetailsFor(EnvironmentName);
+
+            var result = _controller.Index(null) as ViewResult;
+
+            result
+                .Model
+                .Should()
+                .BeOfType<EnvironmentStatusModel>()
+                .Which
+                .Environment
+                .Should()
+                .Be(EnvironmentName);
+        }
+
         private void GivenDetailsFor(string environmentName)
         {
         }

@@ -1,5 +1,79 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model EnvironmentStatusModel
 
-Hello, world!
+<style>
+    #paper {
+        width: 1024px;
+        height: 768px;
+        border: 1px solid lightgray;
+    }
+</style>
+
+<h2>Overview of @Model.Environment</h2>
+<div id="canvas"></div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        window.onload = function() {
+            var nodes = new vis.DataSet([
+                @foreach (var node in Model.Applications)
+                {
+                    WriteLiteral($"{{ id: {node.Id}, label: '{node.Name}', level: {node.Level}}},");
+                }
+            ]);
+
+            var edges = new vis.DataSet([
+                @foreach (var edge in Model.Edges)
+                {
+                    WriteLiteral($"{{ from: {edge.From}, to: {edge.To}, arrows:'to', color: {{ color: '{edge.Color}'}} }},");
+                }
+            ]);
+
+            var container = document.getElementById('canvas');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                "nodes": {
+                    "borderWidth": 2,
+                    "color": {
+                        "highlight": {},
+                        "hover": {}
+                    },
+                    "shape": "box"
+                },
+                "edges": {
+                    "smooth": false
+                },
+                "layout": {
+                    "hierarchical": {
+                        "enabled": true,
+                        "levelSeparation": 170,
+                        "nodeSpacing": 825,
+                        "treeSpacing": 420,
+                        "blockShifting": false,
+                        "edgeMinimization": false,
+                        "direction": "LR",
+                        "sortMethod": "directed"
+                    }
+                },
+                "interaction": {
+                    "dragNodes": false,
+                    "hover": true
+                },
+                "physics": {
+                    "hierarchicalRepulsion": {
+                        "centralGravity": 0
+                    },
+                    "minVelocity": 0.75,
+                    "solver": "hierarchicalRepulsion"
+                }
+            };
+            var network = new vis.Network(container, data, options);
+        };
+    </script>
+}
