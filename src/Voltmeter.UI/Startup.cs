@@ -32,9 +32,23 @@ namespace Voltmeter.UI
                 return settings;
             });
 
-            services.AddSingleton<IEnvironmentStatusStore, EnvironmentStatusStore>();
+            RegisterAdapters(services);
+            RegisterUseCases(services);
+
+            services.AddHostedService<HostedServices.StatusRefreshing>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+        }
+
+        private void RegisterUseCases(IServiceCollection services)
+        {
+            services.AddTransient<RefreshEnvironmentStatusUseCase>();
+        }
+
+        private static void RegisterAdapters(IServiceCollection services)
+        {
+            services.AddSingleton<IEnvironmentStatusStore, EnvironmentStatusStore>();
+            services.AddTransient<IEnvironmentStatusProvider, EnvironmentStatusProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
