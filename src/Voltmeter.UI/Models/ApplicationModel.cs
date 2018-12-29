@@ -12,12 +12,10 @@ namespace Voltmeter.UI.Models
         public static ApplicationModel[] FromStatuses(ApplicationStatus[] statuses)
         {
             return statuses
-                .Select((s, index) =>
+                .Select(FromStatus)
+                .Select((model, index) =>
                 {
-                    var model = FromStatus(s);
-
-                    model.Id = index + 1;
-
+                    model.Id = index + 1; // index is zero based and we want 1 based ids
                     return model;
                 })
                 .ToArray();
