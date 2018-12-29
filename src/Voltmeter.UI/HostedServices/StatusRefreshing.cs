@@ -12,11 +12,13 @@ namespace Voltmeter.UI.HostedServices
         private readonly TimeSpan _healthTestInterval = TimeSpan.FromMinutes(1);
         private readonly Timer _timer;
         private readonly ILogger _logger;
+        private readonly IEnvironmentDiscovery _environmentDiscovery;
 
-        public StatusRefreshing(RefreshEnvironmentStatusUseCase useCase, ILogger logger)
+        public StatusRefreshing(RefreshEnvironmentStatusUseCase useCase, ILogger logger, IEnvironmentDiscovery environmentDiscovery)
         {
             _useCase = useCase;
             _logger = logger;
+            _environmentDiscovery = environmentDiscovery;
             _timer = new Timer(state => Refresh(), null, Timeout.InfiniteTimeSpan, TimeSpan.Zero);
         }
 
@@ -40,8 +42,14 @@ namespace Voltmeter.UI.HostedServices
 
         private void Refresh()
         {
-            var environmentName = "production";
+            foreach (var environment in _environmentDiscovery.Discover())
+            {
+                RefresheEnvironment(environment);
+            }
+        }
 
+        private void RefresheEnvironment(string environmentName)
+        {
             try
             {
                 _logger.Information("Refreshing status of {Environment}", environmentName);

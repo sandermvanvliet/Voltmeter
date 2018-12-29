@@ -6,13 +6,7 @@ namespace Voltmeter
     public class ServiceDiscovery : IServiceDiscovery
     {
         private static readonly string[] Services = {
-            "assets",
-            "catalog",
-            "energysuppliers",
-            "user",
-            "sessions",
-            "savings",
-            "settlement"
+            "user"
         };
 
         public Uri[] DiscoverServicesIn(string environment)

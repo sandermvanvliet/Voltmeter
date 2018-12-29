@@ -48,6 +48,8 @@ namespace Voltmeter.UI
         private static void RegisterAdapters(IServiceCollection services)
         {
             services.AddSingleton<IEnvironmentStatusStore, EnvironmentStatusStore>();
+            services.AddSingleton<IEnvironmentDiscovery, EnvironmentDiscovery>();
+
             services.AddTransient<IEnvironmentStatusProvider, EnvironmentStatusProvider>();
             services.AddTransient<IServiceDiscovery, ServiceDiscovery>();
         }
