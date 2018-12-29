@@ -9,7 +9,7 @@
 
         public string[] GetAvailableEnvironments()
         {
-            throw new System.NotImplementedException();
+            return new string[0];
         }
     }
 }

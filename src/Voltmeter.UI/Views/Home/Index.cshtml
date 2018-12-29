@@ -11,7 +11,15 @@
     }
 </style>
 
-<h2>Overview of @Model.Environment</h2>
+<h2>Overview of @Html.DropDownList(
+                    "environment", 
+                    Model.AvailableEnvironments.Select(e => new SelectListItem{Text = e, Value = e, Selected = e == Model.Environment}), 
+                    "Select environment to display",
+                    new
+                    {
+                        onchange = "environmentSelected(this.value)"
+                    })</h2>
+
 <div id="canvas"></div>
 
 @section Scripts
@@ -75,5 +83,11 @@
             };
             var network = new vis.Network(container, data, options);
         };
+
+        function environmentSelected(environment) {
+            var targetLocation = window.location.origin + '/home/index/' + environment;
+
+            window.location = targetLocation;
+        }
     </script>
 }
