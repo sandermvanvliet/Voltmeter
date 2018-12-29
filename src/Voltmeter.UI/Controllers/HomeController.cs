@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Voltmeter.UI.Models;
 
@@ -30,7 +29,8 @@ namespace Voltmeter.UI.Controllers
             {
                 Environment = environmentName,
                 Applications = ApplicationModel.FromStatuses(applicationStatuses),
-                Edges = new DependencyModel[0]
+                Edges = new DependencyModel[0],
+                AvailableEnvironments = _retriever.GetAvailableEnvironments()
             };
 
             return View(model);

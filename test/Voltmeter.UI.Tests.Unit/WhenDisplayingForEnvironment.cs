@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -11,10 +12,17 @@ namespace Voltmeter.UI.Tests.Unit
     {
         private readonly HomeController _controller;
         private readonly Mock<IEnvironmentStatusRetriever> _statusRetrieverMock;
+        private readonly List<string> _availableEnvironments;
 
         public WhenDisplayingForEnvironment()
         {
+            _availableEnvironments = new List<string>();
+
             _statusRetrieverMock = new Mock<IEnvironmentStatusRetriever>();
+            _statusRetrieverMock
+                .Setup(s => s.GetAvailableEnvironments())
+                .Returns(() => _availableEnvironments.ToArray());
+
             _controller = new HomeController(new VoltmeterSettings { DefaultEnvironmentName = "defaultEnv" }, _statusRetrieverMock.Object);
         }
 
@@ -84,11 +92,33 @@ namespace Voltmeter.UI.Tests.Unit
                 .Be("defaultEnv");
         }
 
+        [Fact]
+        public void GivenFourEnvironmentsExist_ModelContainsListOfThoseEnvironments()
+        {
+            GivenDetailsFor("one");
+            GivenDetailsFor("two");
+            GivenDetailsFor("three");
+            GivenDetailsFor("four");
+            
+            var result = _controller.Index(null) as ViewResult;
+
+            result
+                .Model
+                .Should()
+                .BeOfType<EnvironmentStatusModel>()
+                .Which
+                .AvailableEnvironments
+                .Should()
+                .Contain("one", "two", "three", "four");
+        }
+
         private void GivenDetailsFor(string environmentName)
         {
             _statusRetrieverMock
                 .Setup(s => s.GetFor(It.Is<string>(e => e == environmentName)))
                 .Returns(new [] { new ApplicationStatus() });
+
+            _availableEnvironments.Add(environmentName);
         }
     }
 }

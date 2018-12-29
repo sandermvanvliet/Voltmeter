@@ -7,5 +7,6 @@ namespace Voltmeter.UI.Models
         public ApplicationModel[] Applications { get; set; }
         public string Environment { get; set; }
         public DependencyModel[] Edges { get; set; }
+        public string[] AvailableEnvironments { get; set; }
     }
 }

@@ -6,5 +6,10 @@
         {
             return new ApplicationStatus[0];
         }
+
+        public string[] GetAvailableEnvironments()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
