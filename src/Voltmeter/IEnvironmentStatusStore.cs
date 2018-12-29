@@ -1,6 +1,6 @@
 namespace Voltmeter
 {
-    public interface IEnvironmentStatusRetriever
+    public interface IEnvironmentStatusStore
     {
         ApplicationStatus[] GetFor(string environmentName);
         string[] GetAvailableEnvironments();

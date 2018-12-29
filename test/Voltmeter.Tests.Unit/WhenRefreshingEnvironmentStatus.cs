@@ -14,12 +14,12 @@ namespace Voltmeter.Tests.Unit
         private const string EnvironmentName = "some environment";
         private readonly RefreshEnvironmentStatusUseCase _useCase;
         private readonly Mock<IEnvironmentStatusProvider> _providerMock;
-        private readonly Mock<IEnvironmentStatusRetriever> _retrieverMock;
+        private readonly Mock<IEnvironmentStatusStore> _retrieverMock;
 
         public WhenRefreshingEnvironmentStatus()
         {
             _providerMock = new Mock<IEnvironmentStatusProvider>();
-            _retrieverMock = new Mock<IEnvironmentStatusRetriever>();
+            _retrieverMock = new Mock<IEnvironmentStatusStore>();
 
             var logger = new LoggerConfiguration()
                 .WriteTo.InMemory()

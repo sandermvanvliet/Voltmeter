@@ -32,7 +32,7 @@ namespace Voltmeter.UI
                 return settings;
             });
 
-            services.AddSingleton<IEnvironmentStatusRetriever, EnvironmentStatusRetriever>();
+            services.AddSingleton<IEnvironmentStatusStore, EnvironmentStatusStore>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

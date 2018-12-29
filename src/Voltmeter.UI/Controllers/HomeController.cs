@@ -6,12 +6,12 @@ namespace Voltmeter.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEnvironmentStatusRetriever _retriever;
+        private readonly IEnvironmentStatusStore _store;
         private readonly string _defaultEnvironmentName;
 
-        public HomeController(VoltmeterSettings settings, IEnvironmentStatusRetriever retriever)
+        public HomeController(VoltmeterSettings settings, IEnvironmentStatusStore store)
         {
-            _retriever = retriever;
+            _store = store;
             _defaultEnvironmentName = settings.DefaultEnvironmentName;
         }
 
@@ -23,14 +23,14 @@ namespace Voltmeter.UI.Controllers
                 environmentName = _defaultEnvironmentName;
             }
 
-            var applicationStatuses = _retriever.GetFor(environmentName);
+            var applicationStatuses = _store.GetFor(environmentName);
 
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
                 Applications = ApplicationModel.FromStatuses(applicationStatuses),
                 Edges = new DependencyModel[0],
-                AvailableEnvironments = _retriever.GetAvailableEnvironments()
+                AvailableEnvironments = _store.GetAvailableEnvironments()
             };
 
             return View(model);

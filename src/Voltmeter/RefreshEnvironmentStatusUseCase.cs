@@ -7,16 +7,16 @@ namespace Voltmeter
     public class RefreshEnvironmentStatusUseCase
     {
         private readonly IEnvironmentStatusProvider _provider;
-        private readonly IEnvironmentStatusRetriever _retriever;
+        private readonly IEnvironmentStatusStore _store;
         private readonly ILogger _logger;
 
         public RefreshEnvironmentStatusUseCase(
             IEnvironmentStatusProvider provider,
-            IEnvironmentStatusRetriever retriever, 
+            IEnvironmentStatusStore store,
             ILogger logger)
         {
             _provider = provider;
-            _retriever = retriever;
+            _store = store;
             _logger = logger;
         }
 
@@ -33,10 +33,10 @@ namespace Voltmeter
 
                 if (results.Any())
                 {
-                    _retriever.Update(environment, results);
+                    _store.Update(environment, results);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex, "Could not get status of {Environment}", environment);
                 // Swallow

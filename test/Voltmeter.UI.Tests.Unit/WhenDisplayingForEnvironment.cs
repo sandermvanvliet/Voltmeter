@@ -11,14 +11,14 @@ namespace Voltmeter.UI.Tests.Unit
     public class WhenDisplayingForEnvironment
     {
         private readonly HomeController _controller;
-        private readonly Mock<IEnvironmentStatusRetriever> _statusRetrieverMock;
+        private readonly Mock<IEnvironmentStatusStore> _statusRetrieverMock;
         private readonly List<string> _availableEnvironments;
 
         public WhenDisplayingForEnvironment()
         {
             _availableEnvironments = new List<string>();
 
-            _statusRetrieverMock = new Mock<IEnvironmentStatusRetriever>();
+            _statusRetrieverMock = new Mock<IEnvironmentStatusStore>();
             _statusRetrieverMock
                 .Setup(s => s.GetAvailableEnvironments())
                 .Returns(() => _availableEnvironments.ToArray());
