@@ -11,5 +11,10 @@
         {
             return new string[0];
         }
+
+        public void Update(string environment, ApplicationStatus[] results)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

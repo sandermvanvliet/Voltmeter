@@ -4,5 +4,6 @@ namespace Voltmeter
     {
         ApplicationStatus[] GetFor(string environmentName);
         string[] GetAvailableEnvironments();
+        void Update(string environment, ApplicationStatus[] results);
     }
 }
