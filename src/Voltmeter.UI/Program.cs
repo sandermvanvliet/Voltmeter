@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Voltmeter.UI
 {
@@ -14,11 +10,36 @@ namespace Voltmeter.UI
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var logger = ConfigureLogger();
+
+            CreateWebHostBuilder(args, logger)
+                .Build()
+                .Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args, ILogger logger)
+        {
+            return new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Environment.CurrentDirectory)
+                .ConfigureAppConfiguration(
+                    configurationBuilder => configurationBuilder
+                        .AddJsonFile("appsettings.json")
+                        .AddEnvironmentVariables())
+                .ConfigureServices(serviceCollection => serviceCollection.AddSingleton(logger))
                 .UseStartup<Startup>();
+        }
+
+        private static ILogger ConfigureLogger()
+        {
+            var logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            Log.Logger = logger;
+
+            return logger;
+        }
     }
 }
