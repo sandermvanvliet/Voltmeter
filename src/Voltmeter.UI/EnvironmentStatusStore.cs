@@ -1,20 +1,42 @@
-﻿namespace Voltmeter.UI
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Voltmeter.UI
 {
     public class EnvironmentStatusStore : IEnvironmentStatusStore
     {
+        private readonly Dictionary<string, ApplicationStatus[]> _environmentStatusData;
+
+        public EnvironmentStatusStore()
+        {
+            _environmentStatusData = new Dictionary<string, ApplicationStatus[]>();
+        }
+
         public ApplicationStatus[] GetFor(string environmentName)
         {
+            if (_environmentStatusData.ContainsKey(environmentName))
+            {
+                return _environmentStatusData[environmentName];
+            }
+
             return new ApplicationStatus[0];
         }
 
         public string[] GetAvailableEnvironments()
         {
-            return new string[0];
+            return _environmentStatusData.Keys.ToArray();
         }
 
         public void Update(string environment, ApplicationStatus[] results)
         {
-            throw new System.NotImplementedException();
+            if (_environmentStatusData.ContainsKey(environment))
+            {
+                _environmentStatusData[environment] = results;
+            }
+            else
+            {
+                _environmentStatusData.Add(environment, results);
+            }
         }
     }
 }

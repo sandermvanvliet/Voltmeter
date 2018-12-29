@@ -49,6 +49,7 @@ namespace Voltmeter.UI
         {
             services.AddSingleton<IEnvironmentStatusStore, EnvironmentStatusStore>();
             services.AddTransient<IEnvironmentStatusProvider, EnvironmentStatusProvider>();
+            services.AddTransient<IServiceDiscovery, ServiceDiscovery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
