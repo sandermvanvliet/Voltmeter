@@ -34,7 +34,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             GivenDetailsFor(EnvironmentName);
 
-            var result = _controller.Index(EnvironmentName) as ViewResult;
+            var result = WhenDisplayingEnvironment();
 
             result
                 .Model
@@ -47,7 +47,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             GivenDetailsFor(EnvironmentName);
 
-            var result = _controller.Index(EnvironmentName) as ViewResult;
+            var result = WhenDisplayingEnvironment();
 
             result
                 .Model
@@ -64,7 +64,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             GivenDetailsFor(EnvironmentName);
 
-            var result = _controller.Index(EnvironmentName) as ViewResult;
+            var result = WhenDisplayingEnvironment();
 
             result
                 .Model
@@ -80,8 +80,8 @@ namespace Voltmeter.UI.Tests.Unit
         public void GivenDetailsForProductionAndEnvironmentNameIsNull_ModelContainsDefaultEnvironmentName()
         {
             GivenDetailsFor(EnvironmentName);
-
-            var result = _controller.Index(null) as ViewResult;
+            
+            var result = (ViewResult)_controller.Index(null);
 
             result
                 .Model
@@ -101,7 +101,7 @@ namespace Voltmeter.UI.Tests.Unit
             GivenDetailsFor("three");
             GivenDetailsFor("four");
             
-            var result = _controller.Index(null) as ViewResult;
+            var result = (ViewResult)_controller.Index(null);
 
             result
                 .Model
@@ -120,6 +120,11 @@ namespace Voltmeter.UI.Tests.Unit
                 .Returns(new [] { new ServiceStatus() });
 
             _availableEnvironments.Add(environmentName);
+        }
+
+        private ViewResult WhenDisplayingEnvironment()
+        {
+            return _controller.Index(EnvironmentName) as ViewResult;
         }
     }
 }
