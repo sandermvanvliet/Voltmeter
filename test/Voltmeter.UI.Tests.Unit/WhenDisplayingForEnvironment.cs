@@ -77,6 +77,23 @@ namespace Voltmeter.UI.Tests.Unit
         }
 
         [Fact]
+        public void GivenDetailsForProductionAndEnvironmentNameIsProduction_EdgesContainsAllDependencies()
+        {
+            GivenDetailsFor(EnvironmentName);
+
+            var result = WhenDisplayingEnvironment();
+
+            result
+                .Model
+                .Should()
+                .BeOfType<EnvironmentStatusModel>()
+                .Which
+                .Edges
+                .Should()
+                .HaveCount(2);
+        }
+
+        [Fact]
         public void GivenDetailsForProductionAndEnvironmentNameIsNull_ModelContainsDefaultEnvironmentName()
         {
             GivenDetailsFor(EnvironmentName);
@@ -117,7 +134,17 @@ namespace Voltmeter.UI.Tests.Unit
         {
             _statusRetrieverMock
                 .Setup(s => s.GetFor(It.Is<string>(e => e == environmentName)))
-                .Returns(new [] { new ServiceStatus() });
+                .Returns(new[]
+                {
+                    new ServiceStatus
+                    {
+                        Dependencies = new[]
+                        {
+                            new DependencyStatus(),
+                            new DependencyStatus()
+                        }
+                    }
+                });
 
             _availableEnvironments.Add(environmentName);
         }

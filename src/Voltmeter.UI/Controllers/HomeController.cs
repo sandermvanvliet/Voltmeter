@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Voltmeter.Ports.Storage;
 using Voltmeter.UI.Models;
@@ -26,11 +27,17 @@ namespace Voltmeter.UI.Controllers
 
             var applicationStatuses = _store.GetFor(environmentName);
 
+            var serviceDependencies = applicationStatuses
+                .SelectMany(service => service.Dependencies)
+                .OfType<DependencyStatus>()
+                .Select(dependency => new DependencyModel())
+                .ToArray();
+
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
                 Services = ServiceModel.FromStatuses(applicationStatuses),
-                Edges = new DependencyModel[0],
+                Edges = serviceDependencies,
                 AvailableEnvironments = _store.GetAvailableEnvironments()
             };
 
