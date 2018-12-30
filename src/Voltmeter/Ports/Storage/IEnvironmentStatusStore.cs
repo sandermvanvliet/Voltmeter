@@ -1,4 +1,4 @@
-namespace Voltmeter
+namespace Voltmeter.Ports.Storage
 {
     public interface IEnvironmentStatusStore
     {

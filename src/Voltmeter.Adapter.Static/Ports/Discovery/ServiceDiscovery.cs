@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Voltmeter.Ports.Discovery;
 
-namespace Voltmeter
+namespace Voltmeter.Adapter.Static.Ports.Discovery
 {
-    public class ServiceDiscovery : IServiceDiscovery
+    internal class ServiceDiscovery : IServiceDiscovery
     {
         private static readonly string[] Services = {
             "user"

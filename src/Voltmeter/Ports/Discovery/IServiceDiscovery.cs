@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Voltmeter
+namespace Voltmeter.Ports.Discovery
 {
     public interface IServiceDiscovery
     {

@@ -5,15 +5,17 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6FB774C7-6208-465B-BD41-02175689745B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter", "src\Voltmeter\Voltmeter.csproj", "{90CDFC71-0E0D-4EFB-BFF2-6B95DDCCAF06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter", "src\Voltmeter\Voltmeter.csproj", "{90CDFC71-0E0D-4EFB-BFF2-6B95DDCCAF06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9EFC1927-1E20-4A6C-A49E-C91384239E37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter.Tests.Unit", "test\Voltmeter.Tests.Unit\Voltmeter.Tests.Unit.csproj", "{446CF136-A4F2-480D-A681-37736B5A8816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter.Tests.Unit", "test\Voltmeter.Tests.Unit\Voltmeter.Tests.Unit.csproj", "{446CF136-A4F2-480D-A681-37736B5A8816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter.UI", "src\Voltmeter.UI\Voltmeter.UI.csproj", "{FBB6C2F6-FB4A-4433-9018-81BE7C101E30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter.UI", "src\Voltmeter.UI\Voltmeter.UI.csproj", "{FBB6C2F6-FB4A-4433-9018-81BE7C101E30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter.UI.Tests.Unit", "test\Voltmeter.UI.Tests.Unit\Voltmeter.UI.Tests.Unit.csproj", "{C1160AD9-F9CF-4E2B-B233-0D2B810C227F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter.UI.Tests.Unit", "test\Voltmeter.UI.Tests.Unit\Voltmeter.UI.Tests.Unit.csproj", "{C1160AD9-F9CF-4E2B-B233-0D2B810C227F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter.Adapter.Static", "src\Voltmeter.Adapter.Static\Voltmeter.Adapter.Static.csproj", "{A1C83167-CAE6-4962-A5F7-D07DBF122D31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,9 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{90CDFC71-0E0D-4EFB-BFF2-6B95DDCCAF06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -76,11 +75,30 @@ Global
 		{C1160AD9-F9CF-4E2B-B233-0D2B810C227F}.Release|x64.Build.0 = Release|Any CPU
 		{C1160AD9-F9CF-4E2B-B233-0D2B810C227F}.Release|x86.ActiveCfg = Release|Any CPU
 		{C1160AD9-F9CF-4E2B-B233-0D2B810C227F}.Release|x86.Build.0 = Release|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Debug|x64.Build.0 = Debug|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x64.ActiveCfg = Release|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x64.Build.0 = Release|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{90CDFC71-0E0D-4EFB-BFF2-6B95DDCCAF06} = {6FB774C7-6208-465B-BD41-02175689745B}
 		{446CF136-A4F2-480D-A681-37736B5A8816} = {9EFC1927-1E20-4A6C-A49E-C91384239E37}
 		{FBB6C2F6-FB4A-4433-9018-81BE7C101E30} = {6FB774C7-6208-465B-BD41-02175689745B}
 		{C1160AD9-F9CF-4E2B-B233-0D2B810C227F} = {9EFC1927-1E20-4A6C-A49E-C91384239E37}
+		{A1C83167-CAE6-4962-A5F7-D07DBF122D31} = {6FB774C7-6208-465B-BD41-02175689745B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0EBF8C7-BD5D-4B12-874B-95A8A29417EC}
 	EndGlobalSection
 EndGlobal

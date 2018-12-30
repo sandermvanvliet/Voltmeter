@@ -1,6 +1,8 @@
-﻿namespace Voltmeter
+﻿using Voltmeter.Ports.Discovery;
+
+namespace Voltmeter.Adapter.Static.Ports.Discovery
 {
-    public class EnvironmentDiscovery : IEnvironmentDiscovery
+    internal class EnvironmentDiscovery : IEnvironmentDiscovery
     {
         public string[] Discover()
         {

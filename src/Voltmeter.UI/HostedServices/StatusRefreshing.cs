@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Voltmeter.Ports.Discovery;
+using Voltmeter.UseCases;
 
 namespace Voltmeter.UI.HostedServices
 {

@@ -5,6 +5,9 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.InMemory;
 using Serilog.Sinks.InMemory.Assertions;
+using Voltmeter.Ports.Providers;
+using Voltmeter.Ports.Storage;
+using Voltmeter.UseCases;
 using Xunit;
 
 namespace Voltmeter.Tests.Unit

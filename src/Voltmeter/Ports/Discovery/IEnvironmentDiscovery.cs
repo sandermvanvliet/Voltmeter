@@ -1,4 +1,4 @@
-﻿namespace Voltmeter
+﻿namespace Voltmeter.Ports.Discovery
 {
     public interface IEnvironmentDiscovery
     {

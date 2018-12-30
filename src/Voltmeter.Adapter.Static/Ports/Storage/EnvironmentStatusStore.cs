@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Voltmeter.Ports.Storage;
 
-namespace Voltmeter.UI
+namespace Voltmeter.Adapter.Static.Ports.Storage
 {
     public class EnvironmentStatusStore : IEnvironmentStatusStore
     {

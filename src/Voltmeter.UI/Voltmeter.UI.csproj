@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Voltmeter.Adapter.Static\Voltmeter.Adapter.Static.csproj" />
     <ProjectReference Include="..\Voltmeter\Voltmeter.csproj" />
   </ItemGroup>
 

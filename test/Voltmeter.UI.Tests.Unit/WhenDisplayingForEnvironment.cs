@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Voltmeter.Ports.Storage;
 using Voltmeter.UI.Controllers;
 using Voltmeter.UI.Models;
 using Xunit;

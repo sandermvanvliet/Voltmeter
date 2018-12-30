@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Serilog;
+using Voltmeter.Ports.Providers;
+using Voltmeter.Ports.Storage;
 
-namespace Voltmeter
+namespace Voltmeter.UseCases
 {
     public class RefreshEnvironmentStatusUseCase
     {

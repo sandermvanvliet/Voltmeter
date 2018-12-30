@@ -1,4 +1,4 @@
-﻿namespace Voltmeter
+﻿namespace Voltmeter.Ports.Providers
 {
     public interface IEnvironmentStatusProvider
     {
