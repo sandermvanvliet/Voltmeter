@@ -4,6 +4,6 @@ namespace Voltmeter.Ports.Storage
     {
         ApplicationStatus[] GetFor(string environmentName);
         string[] GetAvailableEnvironments();
-        void Update(string environment, ApplicationStatus[] results);
+        void Update(Environment environment, ApplicationStatus[] results);
     }
 }

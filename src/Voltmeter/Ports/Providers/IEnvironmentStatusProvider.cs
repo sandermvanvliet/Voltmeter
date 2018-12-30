@@ -2,6 +2,6 @@
 {
     public interface IEnvironmentStatusProvider
     {
-        ApplicationStatus[] ProvideFor(string environmentName);
+        ApplicationStatus[] ProvideFor(Environment environment);
     }
 }

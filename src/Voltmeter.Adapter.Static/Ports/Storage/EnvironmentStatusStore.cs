@@ -28,15 +28,15 @@ namespace Voltmeter.Adapter.Static.Ports.Storage
             return _environmentStatusData.Keys.ToArray();
         }
 
-        public void Update(string environment, ApplicationStatus[] results)
+        public void Update(Environment environment, ApplicationStatus[] results)
         {
-            if (_environmentStatusData.ContainsKey(environment))
+            if (_environmentStatusData.ContainsKey(environment.Name))
             {
-                _environmentStatusData[environment] = results;
+                _environmentStatusData[environment.Name] = results;
             }
             else
             {
-                _environmentStatusData.Add(environment, results);
+                _environmentStatusData.Add(environment.Name, results);
             }
         }
     }

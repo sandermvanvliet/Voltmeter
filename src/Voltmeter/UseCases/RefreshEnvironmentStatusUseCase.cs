@@ -22,9 +22,9 @@ namespace Voltmeter.UseCases
             _logger = logger;
         }
 
-        public void Refresh(string environment)
+        public void Refresh(Environment environment)
         {
-            if (string.IsNullOrWhiteSpace(environment))
+            if (environment == null || string.IsNullOrWhiteSpace(environment.Name))
             {
                 throw new ArgumentNullException(nameof(environment));
             }

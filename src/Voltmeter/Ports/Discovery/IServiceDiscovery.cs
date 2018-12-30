@@ -2,6 +2,6 @@
 {
     public interface IServiceDiscovery
     {
-        Service[] DiscoverServicesIn(string environment);
+        Service[] DiscoverServicesIn(Environment environment);
     }
 }

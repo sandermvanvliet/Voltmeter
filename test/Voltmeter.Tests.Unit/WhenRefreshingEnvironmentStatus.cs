@@ -45,14 +45,14 @@ namespace Voltmeter.Tests.Unit
         public void GivenProviderReturnsEmptyResultSet_RetrieverIsNotUpdated()
         {
             _providerMock
-                .Setup(p => p.ProvideFor(It.Is<string>(e => e == EnvironmentName)))
+                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
                 .Returns(new ApplicationStatus[0]);
 
-            _useCase.Refresh(EnvironmentName);
+            WhenRefreshing();
 
             _retrieverMock
                 .Verify(
-                    r => r.Update(It.Is<string>(e => e == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
+                    r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
                     Times.Never);
         }
 
@@ -60,14 +60,14 @@ namespace Voltmeter.Tests.Unit
         public void GivenProviderRThrowsException_RetrieverIsNotUpdated()
         {
             _providerMock
-                .Setup(p => p.ProvideFor(It.Is<string>(e => e == EnvironmentName)))
+                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
                 .Throws(new Exception("BANG!"));
                 
-            _useCase.Refresh(EnvironmentName);
+            WhenRefreshing();
 
             _retrieverMock
                 .Verify(
-                    r => r.Update(It.Is<string>(e => e == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
+                    r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
                     Times.Never);
         }
 
@@ -75,10 +75,10 @@ namespace Voltmeter.Tests.Unit
         public void GivenProviderRThrowsException_ErrorIsLogged()
         {
             _providerMock
-                .Setup(p => p.ProvideFor(It.Is<string>(e => e == EnvironmentName)))
+                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
                 .Throws(new Exception("BANG!"));
 
-            _useCase.Refresh(EnvironmentName);
+            WhenRefreshing();
 
             InMemorySink
                 .Instance
@@ -87,22 +87,27 @@ namespace Voltmeter.Tests.Unit
                 .Appearing().Once()
                 .WithLevel(LogEventLevel.Error)
                 .WithProperty("Environment")
-                .WithValue(EnvironmentName);
+                .WithValue(new Environment().ToString());
         }
 
         [Fact]
         public void GivenProviderReturnsResults_RetrieverIsUpdated()
         {
             _providerMock
-                .Setup(p => p.ProvideFor(It.Is<string>(e => e == EnvironmentName)))
+                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
                 .Returns(new [] { new ApplicationStatus() });
 
-            _useCase.Refresh(EnvironmentName);
+            WhenRefreshing();
 
             _retrieverMock
                 .Verify(
-                    r => r.Update(It.Is<string>(e => e == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
+                    r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
                     Times.Once);
+        }
+
+        private void WhenRefreshing()
+        {
+            _useCase.Refresh(new Environment { Name = EnvironmentName });
         }
     }
 }

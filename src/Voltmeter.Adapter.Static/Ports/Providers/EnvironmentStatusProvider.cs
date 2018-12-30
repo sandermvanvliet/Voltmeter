@@ -13,9 +13,9 @@ namespace Voltmeter.Adapter.Static.Ports.Providers
             _serviceDiscovery = serviceDiscovery;
         }
 
-        public ApplicationStatus[] ProvideFor(string environmentName)
+        public ApplicationStatus[] ProvideFor(Environment environment)
         {
-            var services = _serviceDiscovery.DiscoverServicesIn(environmentName);
+            var services = _serviceDiscovery.DiscoverServicesIn(environment);
 
             return services
                 .Select(s => new ApplicationStatus

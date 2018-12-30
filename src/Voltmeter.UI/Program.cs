@@ -21,7 +21,7 @@ namespace Voltmeter.UI
         {
             return new WebHostBuilder()
                 .UseKestrel()
-                .UseContentRoot(Environment.CurrentDirectory)
+                .UseContentRoot(System.Environment.CurrentDirectory)
                 .ConfigureAppConfiguration(
                     configurationBuilder => configurationBuilder
                         .AddJsonFile("appsettings.json")

@@ -2,6 +2,6 @@
 {
     public interface IServiceStatusProvider
     {
-        ServiceStatus ProvideFor(Service service);
+        ServiceStatus ProvideFor(Service service, Environment environment);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IEnvironmentDiscovery
     {
-        string[] Discover();
+        Environment[] Discover();
     }
 }

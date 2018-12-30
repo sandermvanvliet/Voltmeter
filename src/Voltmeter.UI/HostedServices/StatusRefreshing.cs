@@ -50,19 +50,19 @@ namespace Voltmeter.UI.HostedServices
             }
         }
 
-        private void RefresheEnvironment(string environmentName)
+        private void RefresheEnvironment(Environment environment)
         {
             try
             {
-                _logger.Information("Refreshing status of {Environment}", environmentName);
+                _logger.Information("Refreshing status of {Environment}", environment);
 
-                _useCase.Refresh(environmentName);
+                _useCase.Refresh(environment);
 
-                _logger.Information("Status of {Environment} successfully refreshed", environmentName);
+                _logger.Information("Status of {Environment} successfully refreshed", environment);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Could not refresh status of {Environment}", environmentName);
+                _logger.Error(ex, "Could not refresh status of {Environment}", environment);
             }
         }
     }
