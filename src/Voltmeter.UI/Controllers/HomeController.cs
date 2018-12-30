@@ -27,17 +27,15 @@ namespace Voltmeter.UI.Controllers
 
             var applicationStatuses = _store.GetFor(environmentName);
 
-            var serviceDependencies = applicationStatuses
-                .SelectMany(service => service.Dependencies)
-                .OfType<DependencyStatus>()
-                .Select(dependency => new DependencyModel())
-                .ToArray();
+            var serviceModels = ServiceModel.FromStatuses(applicationStatuses);
 
+            var result = EdgeGenerator.For(serviceModels);
+            
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
-                Services = ServiceModel.FromStatuses(applicationStatuses),
-                Edges = serviceDependencies,
+                Services = serviceModels.Concat(result.CreatedServices).ToArray(),
+                Edges = result.Edges.ToArray(),
                 AvailableEnvironments = _store.GetAvailableEnvironments()
             };
 

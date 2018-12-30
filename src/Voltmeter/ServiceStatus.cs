@@ -3,7 +3,7 @@
     public class ServiceStatus : Service
     {
         public bool IsHealthy { get; set; }
-        public Dependency[] Dependencies { get; set; }
+        public DependencyStatus[] Dependencies { get; set; }
 
         public static ServiceStatus HealthyFrom(Service service)
         {

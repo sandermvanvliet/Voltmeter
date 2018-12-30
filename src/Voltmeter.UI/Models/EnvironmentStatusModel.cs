@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace Voltmeter.UI.Models
 {
     public class EnvironmentStatusModel
