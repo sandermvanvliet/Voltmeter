@@ -4,8 +4,8 @@ namespace Voltmeter.Ports.Storage
 {
     public interface IEnvironmentStatusStore
     {
-        ApplicationStatus[] GetFor(string environmentName);
+        ServiceStatus[] GetFor(string environmentName);
         string[] GetAvailableEnvironments();
-        void Update(Environment environment, IEnumerable<ApplicationStatus> results);
+        void Update(Environment environment, IEnumerable<ServiceStatus> results);
     }
 }

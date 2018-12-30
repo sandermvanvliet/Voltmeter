@@ -117,7 +117,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             _statusRetrieverMock
                 .Setup(s => s.GetFor(It.Is<string>(e => e == environmentName)))
-                .Returns(new [] { new ApplicationStatus() });
+                .Returns(new [] { new ServiceStatus() });
 
             _availableEnvironments.Add(environmentName);
         }

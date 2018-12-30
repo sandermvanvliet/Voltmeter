@@ -60,7 +60,7 @@ namespace Voltmeter.Tests.Unit
 
             _storeMock
                 .Verify(
-                    r => r.Update(It.IsEnvironment(EnvironmentName), Moq.It.IsAny<ApplicationStatus[]>()),
+                    r => r.Update(It.IsEnvironment(EnvironmentName), Moq.It.IsAny<ServiceStatus[]>()),
                     Times.Never);
         }
 
@@ -75,7 +75,7 @@ namespace Voltmeter.Tests.Unit
 
             _storeMock
                 .Verify(
-                    r => r.Update(It.IsEnvironment(EnvironmentName), Moq.It.IsAny<ApplicationStatus[]>()),
+                    r => r.Update(It.IsEnvironment(EnvironmentName), Moq.It.IsAny<ServiceStatus[]>()),
                     Times.Never);
         }
 
@@ -111,7 +111,7 @@ namespace Voltmeter.Tests.Unit
                 .Verify(
                     r => r.Update(
                         It.IsEnvironment(EnvironmentName),
-                        Moq.It.IsAny<IEnumerable<ApplicationStatus>>()),
+                        Moq.It.IsAny<IEnumerable<ServiceStatus>>()),
                     Times.Once);
         }
 

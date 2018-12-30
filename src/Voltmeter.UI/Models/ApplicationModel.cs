@@ -9,7 +9,7 @@ namespace Voltmeter.UI.Models
         public int  Level { get; set; }
         public string Color { get; set; }
 
-        public static ApplicationModel[] FromStatuses(ApplicationStatus[] statuses)
+        public static ApplicationModel[] FromStatuses(ServiceStatus[] statuses)
         {
             return statuses
                 .Select(FromStatus)
@@ -21,7 +21,7 @@ namespace Voltmeter.UI.Models
                 .ToArray();
         }
 
-        public static ApplicationModel FromStatus(ApplicationStatus applicationStatus)
+        public static ApplicationModel FromStatus(ServiceStatus applicationStatus)
         {
             return new ApplicationModel
             {

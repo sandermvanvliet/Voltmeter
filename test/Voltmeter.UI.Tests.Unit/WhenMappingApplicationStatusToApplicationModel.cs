@@ -5,17 +5,17 @@ using Xunit;
 
 namespace Voltmeter.UI.Tests.Unit
 {
-    public class WhenMappingApplicationStatusToApplicationModel
+    public class WhenMappingServiceStatusToApplicationModel
     {
         [Fact]
         public void GivenListOfStatuses_ModelsHaveSequentialIds()
         {
             var statuses = new[]
             {
-                new ApplicationStatus(),
-                new ApplicationStatus(),
-                new ApplicationStatus(),
-                new ApplicationStatus(),
+                new ServiceStatus(),
+                new ServiceStatus(),
+                new ServiceStatus(),
+                new ServiceStatus(),
             };
 
             var models = ApplicationModel.FromStatuses(statuses);
@@ -29,7 +29,7 @@ namespace Voltmeter.UI.Tests.Unit
         [Fact]
         public void GivenStatus_ModelHasApplicationName()
         {
-            var status = new ApplicationStatus {Name = "appOne"};
+            var status = new ServiceStatus {Name = "appOne"};
 
             ApplicationModel
                 .FromStatus(status)
@@ -41,7 +41,7 @@ namespace Voltmeter.UI.Tests.Unit
         [Fact]
         public void GivenStatusWithHealthyState_ModelHasColorGreen()
         {
-            var status = new ApplicationStatus { Name = "appOne", IsHealthy = true };
+            var status = new ServiceStatus { Name = "appOne", IsHealthy = true };
 
             ApplicationModel
                 .FromStatus(status)

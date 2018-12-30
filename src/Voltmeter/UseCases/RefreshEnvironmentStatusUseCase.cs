@@ -37,12 +37,12 @@ namespace Voltmeter.UseCases
             {
                 var services = _serviceDiscovery.DiscoverServicesIn(environment);
 
-                var results = new List<ApplicationStatus>();
+                var results = new List<ServiceStatus>();
 
                 foreach (var service in services)
                 {
                     _refreshServiceUseCase.Refresh(service);
-                    results.Add(new ApplicationStatus());
+                    results.Add(new ServiceStatus());
                 }
 
                 if (results.Any())

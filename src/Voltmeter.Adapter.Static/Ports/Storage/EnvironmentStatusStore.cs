@@ -6,21 +6,21 @@ namespace Voltmeter.Adapter.Static.Ports.Storage
 {
     public class EnvironmentStatusStore : IEnvironmentStatusStore
     {
-        private readonly Dictionary<string, ApplicationStatus[]> _environmentStatusData;
+        private readonly Dictionary<string, ServiceStatus[]> _environmentStatusData;
 
         public EnvironmentStatusStore()
         {
-            _environmentStatusData = new Dictionary<string, ApplicationStatus[]>();
+            _environmentStatusData = new Dictionary<string, ServiceStatus[]>();
         }
 
-        public ApplicationStatus[] GetFor(string environmentName)
+        public ServiceStatus[] GetFor(string environmentName)
         {
             if (_environmentStatusData.ContainsKey(environmentName))
             {
                 return _environmentStatusData[environmentName];
             }
 
-            return new ApplicationStatus[0];
+            return new ServiceStatus[0];
         }
 
         public string[] GetAvailableEnvironments()
@@ -28,7 +28,7 @@ namespace Voltmeter.Adapter.Static.Ports.Storage
             return _environmentStatusData.Keys.ToArray();
         }
 
-        public void Update(Environment environment, IEnumerable<ApplicationStatus> results)
+        public void Update(Environment environment, IEnumerable<ServiceStatus> results)
         {
             if (_environmentStatusData.ContainsKey(environment.Name))
             {
