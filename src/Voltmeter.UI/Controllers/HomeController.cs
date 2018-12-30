@@ -30,11 +30,15 @@ namespace Voltmeter.UI.Controllers
             var serviceModels = ServiceModel.FromStatuses(applicationStatuses);
 
             var result = EdgeGenerator.For(serviceModels);
-            
+
+            var services = serviceModels.Concat(result.CreatedServices).ToArray();
+
+            ServiceLayout.ApplyTo(services, result.Edges);
+
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
-                Services = serviceModels.Concat(result.CreatedServices).ToArray(),
+                Services = services,
                 Edges = result.Edges.ToArray(),
                 AvailableEnvironments = _store.GetAvailableEnvironments()
             };
