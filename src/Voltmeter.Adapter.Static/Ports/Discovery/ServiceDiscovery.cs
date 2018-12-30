@@ -8,7 +8,8 @@ namespace Voltmeter.Adapter.Static.Ports.Discovery
     {
         private static readonly string[] Services =
         {
-            "user"
+            "user",
+            "session"
         };
 
         public Service[] DiscoverServicesIn(Environment environment)
