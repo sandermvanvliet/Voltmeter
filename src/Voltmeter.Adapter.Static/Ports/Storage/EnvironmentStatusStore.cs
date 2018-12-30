@@ -4,7 +4,7 @@ using Voltmeter.Ports.Storage;
 
 namespace Voltmeter.Adapter.Static.Ports.Storage
 {
-    public class EnvironmentStatusStore : IEnvironmentStatusStore
+    internal class EnvironmentStatusStore : IEnvironmentStatusStore
     {
         private readonly Dictionary<string, ServiceStatus[]> _environmentStatusData;
 
