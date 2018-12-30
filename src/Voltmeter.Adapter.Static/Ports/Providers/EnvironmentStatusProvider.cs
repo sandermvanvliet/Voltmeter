@@ -21,8 +21,8 @@ namespace Voltmeter.Adapter.Static.Ports.Providers
                 .Select(s => new ApplicationStatus
                 {
                     IsHealthy = true,
-                    Name = s.ToString(),
-                    Location = s
+                    Name = s.Name,
+                    Location = s.Location
                 })
                 .ToArray();
         }

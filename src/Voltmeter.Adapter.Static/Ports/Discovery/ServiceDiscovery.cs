@@ -10,10 +10,10 @@ namespace Voltmeter.Adapter.Static.Ports.Discovery
             "user"
         };
 
-        public Uri[] DiscoverServicesIn(string environment)
+        public Service[] DiscoverServicesIn(string environment)
         {
             return Services
-                .Select(service => new Uri($"https://{environment}-{service}-api.azurewebsites.net"))
+                .Select(service => new Service { Location = new Uri($"https://{environment}-{service}-api.azurewebsites.net"), Name = service })
                 .ToArray();
         }
     }
