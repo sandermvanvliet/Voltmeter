@@ -44,7 +44,10 @@ namespace Voltmeter.UI
 
         private void RegisterUseCases(IServiceCollection services)
         {
-            services.AddTransient<RefreshEnvironmentStatusUseCase>();
+            services
+                .AddTransient<RefreshEnvironmentStatusUseCase>()
+                .AddTransient<RefreshServiceStatusUseCase>();
+
         }
 
         private static void RegisterAdapters(IServiceCollection services)
