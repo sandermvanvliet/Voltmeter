@@ -1,4 +1,5 @@
-﻿using Voltmeter.Ports.Providers;
+﻿using System;
+using Voltmeter.Ports.Providers;
 
 namespace Voltmeter.UseCases
 {
@@ -11,6 +12,11 @@ namespace Voltmeter.UseCases
         {
             _statusProvider = statusProvider;
             _dependenciesProvider = dependenciesProvider;
+        }
+
+        public ServiceStatus Refresh(Service service)
+        {
+            return null;
         }
     }
 }

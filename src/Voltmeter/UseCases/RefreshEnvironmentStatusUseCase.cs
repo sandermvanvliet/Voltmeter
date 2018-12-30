@@ -1,25 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Serilog;
-using Voltmeter.Ports.Providers;
+using Voltmeter.Ports.Discovery;
 using Voltmeter.Ports.Storage;
 
 namespace Voltmeter.UseCases
 {
     public class RefreshEnvironmentStatusUseCase
     {
-        private readonly IEnvironmentStatusProvider _provider;
         private readonly IEnvironmentStatusStore _store;
+        private readonly IServiceDiscovery _serviceDiscovery;
+        private readonly RefreshServiceStatusUseCase _refreshServiceUseCase;
         private readonly ILogger _logger;
 
         public RefreshEnvironmentStatusUseCase(
-            IEnvironmentStatusProvider provider,
             IEnvironmentStatusStore store,
-            ILogger logger)
+            ILogger logger, 
+            IServiceDiscovery serviceDiscovery, 
+            RefreshServiceStatusUseCase refreshServiceUseCase)
         {
-            _provider = provider;
             _store = store;
             _logger = logger;
+            _serviceDiscovery = serviceDiscovery;
+            _refreshServiceUseCase = refreshServiceUseCase;
         }
 
         public void Refresh(Environment environment)
@@ -31,7 +35,15 @@ namespace Voltmeter.UseCases
 
             try
             {
-                var results = _provider.ProvideFor(environment);
+                var services = _serviceDiscovery.DiscoverServicesIn(environment);
+
+                var results = new List<ApplicationStatus>();
+
+                foreach (var service in services)
+                {
+                    _refreshServiceUseCase.Refresh(service);
+                    results.Add(new ApplicationStatus());
+                }
 
                 if (results.Any())
                 {

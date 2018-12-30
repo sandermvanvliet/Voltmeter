@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.InMemory;
 using Serilog.Sinks.InMemory.Assertions;
+using Voltmeter.Ports.Discovery;
 using Voltmeter.Ports.Providers;
 using Voltmeter.Ports.Storage;
 using Voltmeter.UseCases;
@@ -16,19 +18,23 @@ namespace Voltmeter.Tests.Unit
     {
         private const string EnvironmentName = "some environment";
         private readonly RefreshEnvironmentStatusUseCase _useCase;
-        private readonly Mock<IEnvironmentStatusProvider> _providerMock;
-        private readonly Mock<IEnvironmentStatusStore> _retrieverMock;
+        private readonly Mock<IEnvironmentStatusStore> _storeMock;
+        private readonly Mock<IServiceDiscovery> _serviceDiscoveryMock;
 
         public WhenRefreshingEnvironmentStatus()
         {
-            _providerMock = new Mock<IEnvironmentStatusProvider>();
-            _retrieverMock = new Mock<IEnvironmentStatusStore>();
+            _storeMock = new Mock<IEnvironmentStatusStore>();
+            _serviceDiscoveryMock = new Mock<IServiceDiscovery>();
 
             var logger = new LoggerConfiguration()
                 .WriteTo.InMemory()
                 .CreateLogger();
 
-            _useCase = new RefreshEnvironmentStatusUseCase(_providerMock.Object, _retrieverMock.Object, logger);
+            _useCase = new RefreshEnvironmentStatusUseCase(
+                _storeMock.Object, 
+                logger,
+                _serviceDiscoveryMock.Object,
+                new RefreshServiceStatusUseCase(new Mock<IServiceStatusProvider>().Object, new Mock<IServiceDependenciesProvider>().Object));
         }
 
         [Fact]
@@ -44,13 +50,13 @@ namespace Voltmeter.Tests.Unit
         [Fact]
         public void GivenProviderReturnsEmptyResultSet_RetrieverIsNotUpdated()
         {
-            _providerMock
-                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
-                .Returns(new ApplicationStatus[0]);
+            _serviceDiscoveryMock
+                .Setup(s => s.DiscoverServicesIn(It.Is<Environment>(e => e.Name == EnvironmentName)))
+                .Returns<Environment>(e => new Service[0]);
 
             WhenRefreshing();
 
-            _retrieverMock
+            _storeMock
                 .Verify(
                     r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
                     Times.Never);
@@ -59,13 +65,13 @@ namespace Voltmeter.Tests.Unit
         [Fact]
         public void GivenProviderRThrowsException_RetrieverIsNotUpdated()
         {
-            _providerMock
-                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
+            _serviceDiscoveryMock
+                .Setup(s => s.DiscoverServicesIn(It.Is<Environment>(e => e.Name == EnvironmentName)))
                 .Throws(new Exception("BANG!"));
                 
             WhenRefreshing();
 
-            _retrieverMock
+            _storeMock
                 .Verify(
                     r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
                     Times.Never);
@@ -74,8 +80,8 @@ namespace Voltmeter.Tests.Unit
         [Fact]
         public void GivenProviderRThrowsException_ErrorIsLogged()
         {
-            _providerMock
-                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
+            _serviceDiscoveryMock
+                .Setup(s => s.DiscoverServicesIn(It.Is<Environment>(e => e.Name == EnvironmentName)))
                 .Throws(new Exception("BANG!"));
 
             WhenRefreshing();
@@ -93,15 +99,15 @@ namespace Voltmeter.Tests.Unit
         [Fact]
         public void GivenProviderReturnsResults_RetrieverIsUpdated()
         {
-            _providerMock
-                .Setup(p => p.ProvideFor(It.Is<Environment>(e => e.Name == EnvironmentName)))
-                .Returns(new [] { new ApplicationStatus() });
+            _serviceDiscoveryMock
+                .Setup(s => s.DiscoverServicesIn(It.Is<Environment>(e => e.Name == EnvironmentName)))
+                .Returns<Environment>(e => new[] {new Service {Environment = e}});
 
             WhenRefreshing();
 
-            _retrieverMock
+            _storeMock
                 .Verify(
-                    r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<ApplicationStatus[]>()),
+                    r => r.Update(It.Is<Environment>(e => e.Name == EnvironmentName), It.IsAny<IEnumerable<ApplicationStatus>>()),
                     Times.Once);
         }
 

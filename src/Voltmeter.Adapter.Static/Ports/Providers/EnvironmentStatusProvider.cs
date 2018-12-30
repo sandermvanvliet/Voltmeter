@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using Voltmeter.Ports.Discovery;
-using Voltmeter.Ports.Providers;
 
 namespace Voltmeter.Adapter.Static.Ports.Providers
 {
-    internal class EnvironmentStatusProvider: IEnvironmentStatusProvider
+    internal class EnvironmentStatusProvider
     {
         private readonly IServiceDiscovery _serviceDiscovery;
 

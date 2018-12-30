@@ -15,7 +15,8 @@ namespace Voltmeter.Adapter.Static
             serviceCollection
                 .AddTransient<IEnvironmentDiscovery, EnvironmentDiscovery>()
                 .AddTransient<IServiceDiscovery, ServiceDiscovery>()
-                .AddTransient<IEnvironmentStatusProvider, EnvironmentStatusProvider>(); ;
+                .AddTransient<IServiceStatusProvider, ServiceStatusProvider>()
+                .AddTransient<IServiceDependenciesProvider, ServiceDependenciesProvider>();
 
             serviceCollection
                 .AddSingleton<IEnvironmentStatusStore, EnvironmentStatusStore>();
