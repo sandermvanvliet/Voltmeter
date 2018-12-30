@@ -18,7 +18,7 @@ namespace Voltmeter.UI.Tests.Unit
                 new ServiceStatus(),
             };
 
-            var models = ApplicationModel.FromStatuses(statuses);
+            var models = ServiceModel.FromStatuses(statuses);
 
             models
                 .Select(m => m.Id)
@@ -31,7 +31,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             var status = new ServiceStatus {Name = "appOne"};
 
-            ApplicationModel
+            ServiceModel
                 .FromStatus(status)
                 .Name
                 .Should()
@@ -43,7 +43,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             var status = new ServiceStatus { Name = "appOne", IsHealthy = true };
 
-            ApplicationModel
+            ServiceModel
                 .FromStatus(status)
                 .Color
                 .Should()

@@ -54,7 +54,7 @@ namespace Voltmeter.UI.Tests.Unit
                 .Should()
                 .BeOfType<EnvironmentStatusModel>()
                 .Which
-                .Applications
+                .Services
                 .Should()
                 .NotBeEmpty();
         }

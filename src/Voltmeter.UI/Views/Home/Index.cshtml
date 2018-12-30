@@ -27,7 +27,7 @@
     <script type="text/javascript">
         window.onload = function() {
             var nodes = new vis.DataSet([
-                @foreach (var node in Model.Applications)
+                @foreach (var node in Model.Services)
                 {
                     WriteLiteral($"{{ id: {node.Id}, label: '{node.Name}', level: {node.Level}}},");
                 }
