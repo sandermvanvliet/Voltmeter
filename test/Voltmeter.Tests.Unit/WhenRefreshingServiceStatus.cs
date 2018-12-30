@@ -90,7 +90,7 @@ namespace Voltmeter.Tests.Unit
                     service =>
                         Enumerable
                             .Range(1, number)
-                            .Select(n => new ServiceDependency())
+                            .Select(n => new Dependency())
                             .ToArray());
         }
 

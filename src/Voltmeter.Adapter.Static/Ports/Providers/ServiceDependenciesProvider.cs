@@ -4,9 +4,9 @@ namespace Voltmeter.Adapter.Static.Ports.Providers
 {
     internal class ServiceDependenciesProvider : IServiceDependenciesProvider
     {
-        public ServiceDependency[] ProvideFor(Service service)
+        public Dependency[] ProvideFor(Service service)
         {
-            return new ServiceDependency[0];
+            return new Dependency[0];
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IServiceDependenciesProvider
     {
-        ServiceDependency[] ProvideFor(Service service);
+        Dependency[] ProvideFor(Service service);
     }
 }

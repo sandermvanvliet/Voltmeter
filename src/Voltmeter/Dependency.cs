@@ -1,6 +1,6 @@
 ﻿namespace Voltmeter
 {
-    public class ServiceDependency
+    public class Dependency
     {
     }
 }
