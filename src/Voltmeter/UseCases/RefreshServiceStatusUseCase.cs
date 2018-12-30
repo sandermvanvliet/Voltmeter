@@ -8,7 +8,9 @@ namespace Voltmeter.UseCases
         private readonly IServiceStatusProvider _statusProvider;
         private readonly IServiceDependenciesProvider _dependenciesProvider;
 
-        public RefreshServiceStatusUseCase(IServiceStatusProvider statusProvider, IServiceDependenciesProvider dependenciesProvider)
+        public RefreshServiceStatusUseCase(
+            IServiceStatusProvider statusProvider, 
+            IServiceDependenciesProvider dependenciesProvider)
         {
             _statusProvider = statusProvider;
             _dependenciesProvider = dependenciesProvider;
@@ -16,7 +18,21 @@ namespace Voltmeter.UseCases
 
         public ServiceStatus Refresh(Service service)
         {
-            return null;
+            if (service == null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
+            var status = _statusProvider.ProvideFor(service);
+
+            if (status != null)
+            {
+                var dependencies = _dependenciesProvider.ProvideFor(service);
+
+                status.Dependencies = dependencies;
+            }
+
+            return status;
         }
     }
 }
