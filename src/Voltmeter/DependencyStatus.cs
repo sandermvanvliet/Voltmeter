@@ -8,7 +8,8 @@
         {
             return new DependencyStatus
             {
-                IsHealthy = true
+                IsHealthy = true,
+                Name = dependency.Name
             };
         }
 
@@ -16,7 +17,8 @@
         {
             return new DependencyStatus
             {
-                IsHealthy = false
+                IsHealthy = false,
+                Name = dependency.Name
             };
         }
     }
