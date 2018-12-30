@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Moq;
 using Serilog;
@@ -20,6 +21,7 @@ namespace Voltmeter.Tests.Unit
         private readonly RefreshEnvironmentStatusUseCase _useCase;
         private readonly Mock<IEnvironmentStatusStore> _storeMock;
         private readonly Mock<IServiceDiscovery> _serviceDiscoveryMock;
+        private readonly Mock<IServiceStatusProvider> _serviceStatusMock;
 
         public WhenRefreshingEnvironmentStatus()
         {
@@ -30,12 +32,13 @@ namespace Voltmeter.Tests.Unit
                 .WriteTo.InMemory()
                 .CreateLogger();
 
+            _serviceStatusMock = new Mock<IServiceStatusProvider>();
             _useCase = new RefreshEnvironmentStatusUseCase(
                 _storeMock.Object, 
                 logger,
                 _serviceDiscoveryMock.Object,
                 new RefreshServiceStatusUseCase(
-                    new Mock<IServiceStatusProvider>().Object, 
+                    _serviceStatusMock.Object, 
                     new Mock<IServiceDependenciesProvider>().Object));
         }
 
@@ -99,11 +102,17 @@ namespace Voltmeter.Tests.Unit
         }
 
         [Fact]
-        public void GivenProviderReturnsResults_RetrieverIsUpdated()
+        public void GivenProviderReturnsResults_RetrieverIsUpdatedWithService()
         {
+            var serviceName = "SOME SERVICE";
+
             _serviceDiscoveryMock
                 .Setup(s => s.DiscoverServicesIn(It.IsEnvironment(EnvironmentName)))
-                .Returns<Environment>(e => new[] {new Service {Environment = e}});
+                .Returns<Environment>(e => new[] {new Service {Environment = e, Name = serviceName } });
+
+            _serviceStatusMock
+                .Setup(s => s.ProvideFor(It.IsService(serviceName)))
+                .Returns<Service>(ServiceStatus.HealthyFrom);
 
             WhenRefreshing();
 
@@ -111,7 +120,7 @@ namespace Voltmeter.Tests.Unit
                 .Verify(
                     r => r.Update(
                         It.IsEnvironment(EnvironmentName),
-                        Moq.It.IsAny<IEnumerable<ServiceStatus>>()),
+                        Moq.It.Is<IEnumerable<ServiceStatus>>(services => services.Any(s => s.Name == serviceName))),
                     Times.Once);
         }
 

@@ -41,8 +41,9 @@ namespace Voltmeter.UseCases
 
                 foreach (var service in services)
                 {
-                    _refreshServiceUseCase.Refresh(service);
-                    results.Add(new ServiceStatus());
+                    var status = _refreshServiceUseCase.Refresh(service);
+
+                    results.Add(status);
                 }
 
                 if (results.Any())

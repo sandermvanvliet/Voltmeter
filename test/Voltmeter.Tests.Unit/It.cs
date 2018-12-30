@@ -8,7 +8,11 @@ namespace Voltmeter.Tests.Unit
     {
         public static Service IsService(Service service)
         {
-            Expression<Func<Service, bool>> match = s => s.Name == service.Name;
+            return IsService(service.Name);
+        }
+        public static Service IsService(string serviceName)
+        {
+            Expression<Func<Service, bool>> match = s => s.Name == serviceName;
 
             return Match.Create(
                 value => match.Compile().Invoke(value),
