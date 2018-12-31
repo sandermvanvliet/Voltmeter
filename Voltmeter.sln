@@ -15,12 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter.UI", "src\Voltmet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter.UI.Tests.Unit", "test\Voltmeter.UI.Tests.Unit\Voltmeter.UI.Tests.Unit.csproj", "{C1160AD9-F9CF-4E2B-B233-0D2B810C227F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter.Adapter.Static", "src\Voltmeter.Adapter.Static\Voltmeter.Adapter.Static.csproj", "{A1C83167-CAE6-4962-A5F7-D07DBF122D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voltmeter.Adapter.Static", "src\Voltmeter.Adapter.Static\Voltmeter.Adapter.Static.csproj", "{A1C83167-CAE6-4962-A5F7-D07DBF122D31}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23963D4B-0A9C-4E5A-82D9-94A0393BC5AA}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voltmeter.Adapter.SimpleServiceStatus", "src\Voltmeter.Adapter.SimpleServiceStatus\Voltmeter.Adapter.SimpleServiceStatus.csproj", "{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +94,18 @@ Global
 		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x64.Build.0 = Release|Any CPU
 		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x86.ActiveCfg = Release|Any CPU
 		{A1C83167-CAE6-4962-A5F7-D07DBF122D31}.Release|x86.Build.0 = Release|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Debug|x64.Build.0 = Debug|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Debug|x86.Build.0 = Debug|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Release|x64.ActiveCfg = Release|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Release|x64.Build.0 = Release|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +116,7 @@ Global
 		{FBB6C2F6-FB4A-4433-9018-81BE7C101E30} = {6FB774C7-6208-465B-BD41-02175689745B}
 		{C1160AD9-F9CF-4E2B-B233-0D2B810C227F} = {9EFC1927-1E20-4A6C-A49E-C91384239E37}
 		{A1C83167-CAE6-4962-A5F7-D07DBF122D31} = {6FB774C7-6208-465B-BD41-02175689745B}
+		{EF1B3A6D-FB32-4E1D-8258-96525D0A26BF} = {6FB774C7-6208-465B-BD41-02175689745B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0EBF8C7-BD5D-4B12-874B-95A8A29417EC}
