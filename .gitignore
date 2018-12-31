@@ -331,3 +331,4 @@ ASALocalRun/
 
 publish/
 artifacts/
+appsettings.*.json
