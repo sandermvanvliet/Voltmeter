@@ -41,9 +41,16 @@ namespace Voltmeter.UseCases
 
                 foreach (var service in services)
                 {
-                    var status = _refreshServiceUseCase.Refresh(service);
+                    try
+                    {
+                        var status = _refreshServiceUseCase.Refresh(service);
 
-                    results.Add(status);
+                        results.Add(status);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(e, "Could not refresh {@Service}", service);
+                    }
                 }
 
                 if (results.Any())
