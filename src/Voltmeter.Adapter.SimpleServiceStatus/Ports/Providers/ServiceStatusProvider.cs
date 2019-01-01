@@ -15,6 +15,11 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Ports.Providers
 
         public ServiceStatus ProvideFor(Service service)
         {
+            if (service == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var canaryEndpoint = new Uri(service.Location, "/service/healthcheck/asg");
 
             var response = _httpClient
