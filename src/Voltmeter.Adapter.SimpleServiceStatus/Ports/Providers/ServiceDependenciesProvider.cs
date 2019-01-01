@@ -23,6 +23,11 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Ports.Providers
 
         public DependencyStatus[] ProvideFor(Service service)
         {
+            if (service == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             var canaryEndpoint = new Uri(service.Location, "/service/healthcheck");
 
             var response = _httpClient
