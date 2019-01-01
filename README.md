@@ -6,7 +6,7 @@ Build status:
 [![Build status](https://ci.appveyor.com/api/projects/status/997627b3796vd2hi?svg=true)](https://ci.appveyor.com/project/sandermvanvliet/voltmeter)
 
 This application was built to quickly visualise the current state of services in any particular environment.
-It leverages [simple service status endpoints](https://github.com/beamly/SE4/blob/master/SE4.md) as defined by Beamly to provide this information.
+It leverages [simple service status endpoints](https://github.com/beamly/SE4/blob/master/SE4.md) (SE4) as defined by Beamly to provide this information.
 
 Depending on how you can discover environments and services, the overview will be updated automatically when services
 appear or disappear in your running landscape.
@@ -15,7 +15,45 @@ Currently this has a hard coded set of providers that will just generate service
 used as a demonstration version of Voltmeter. To actually to make this work you will need to impement the
 ports you will need to make it work for your use case.
 
-## Implementation
+## Running with the SE4 adapter
+
+Do demonstrate how Voltmeter works it comes with an adapter that supports retrieving status from
+services that support the [simple service status endpoints](https://github.com/beamly/SE4/blob/master/SE4.md). Discovery
+is handled through the configuration file `appsettings.<environment>.json`. 
+Configuration looks like so:
+
+```json
+{
+    "Voltmeter": {
+        "Environments": [ "prod", "qa", "test" ],
+        "Services": [
+            {
+                "Name": "user",
+                "LocationPattern": "https://user.{environment}.tempuri.org"
+            },
+            {
+                "Name": "session",
+                "LocationPattern": "https://sessions.{environment}.tempuri.org"
+            }
+        ]
+    }
+}
+```
+
+* `Environments` is a list containing the names of the environments.
+* `Services` is a list of known services
+  * `Name` is the name of the service
+  * `LocationPattern` is the URI of the service, `{environment}` will be replaced with values from `Environments`
+
+When you run the application you should see a diagram similar to the one below:
+
+![demo.png](demo.png)
+
+You'll note the `database` and `messagebus` nodes in the diagram which are not in the configuration. 
+Voltmeter will automatically add nodes to the diagram that it finds in the service dependencies and
+don't yet exist as known services.
+
+## Making this your own
 
 The Voltmeter UI needs an adapter that must be configured to provide evironments, services and dependencies that
 will be used to visualise your landscape.
