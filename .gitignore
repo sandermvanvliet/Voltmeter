@@ -331,3 +331,5 @@ ASALocalRun/
 
 publish/
 artifacts/
+appsettings.*.json
+coverage.cobertura.xml

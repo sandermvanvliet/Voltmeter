@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Voltmeter.Adapter.SimpleServiceStatus;
 using Voltmeter.Adapter.Static;
 using Voltmeter.UseCases;
 
@@ -52,7 +53,7 @@ namespace Voltmeter.UI
 
         private static void RegisterAdapters(IServiceCollection services)
         {
-            services.AddStaticAdapter();
+            services.AddSimpleServiceStatus();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

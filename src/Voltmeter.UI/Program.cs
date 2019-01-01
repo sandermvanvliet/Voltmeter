@@ -19,12 +19,15 @@ namespace Voltmeter.UI
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args, ILogger logger)
         {
+            var environment = System.Environment.GetEnvironmentVariable("ENVIRONMENT") ?? "Development";
+
             return new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(System.Environment.CurrentDirectory)
                 .ConfigureAppConfiguration(
                     configurationBuilder => configurationBuilder
                         .AddJsonFile("appsettings.json")
+                        .AddJsonFile($"appsettings.{environment}.json", optional:true)
                         .AddEnvironmentVariables())
                 .ConfigureServices(serviceCollection => serviceCollection.AddSingleton(logger))
                 .UseStartup<Startup>();
