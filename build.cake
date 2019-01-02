@@ -1,3 +1,4 @@
+#addin nuget:?package=Cake.Docker&version=0.9.7
 var target = Argument("target", "Pull-Request");
 var configuration = Argument("configuration", "Release");
 var verbosity = Argument<DotNetCoreVerbosity>("verbosity", DotNetCoreVerbosity.Quiet);
@@ -8,6 +9,7 @@ var testIntegrationProjectPattern = "./**/*.Tests.Integration.csproj";
 var testAcceptanceProjectPattern = "./**/*.Tests.Acceptance.csproj";
 var isTfsBuild = (EnvironmentVariable("TF_BUILD") ?? "False").ToLower() == "true";
 var testLogger = isTfsBuild ? "trx" : "console;verbosity=normal";
+var buildNumber = EnvironmentVariable("Build.BuildNumber") ?? "1.0";
 
 void RunTests(string projectGlob)
 {
@@ -77,7 +79,6 @@ Task("Restore")
 
 Task("Build")
   .Does(() => {
-	var buildNumber = EnvironmentVariable("Build.BuildNumber") ?? "1.0";	
 	var sourceVersion = GetOutputOfCommand("git", "rev-parse HEAD");
 
 	var settings = new DotNetCoreBuildSettings
@@ -128,6 +129,18 @@ Task("Package-Api")
 		// Azure expects API's to be zipped
 		Zip(settings.OutputDirectory, artifactsPath + "/" + project.GetFilenameWithoutExtension() + ".zip");
 	}
+});
+
+Task("Package-Docker")
+	.IsDependentOn("Package-Api")
+	.Does(() => {
+		var settings = new DockerImageBuildSettings 
+		{
+			File = "Dockerfile",
+			Tag = new [] { "voltmeter:" + buildNumber }
+		};
+		
+		DockerBuild(settings, Environment.CurrentDirectory);
 });
 
 Task("Test-Unit")
