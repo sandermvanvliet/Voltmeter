@@ -71,6 +71,32 @@ Then the fun part starts, you will need to implement the following ports:
 * `IServiceStatusProvider` to get status of the service
 * `IServiceDependenciesProvider` to determine the dependencies of a service
 
+## Building
+
+Voltmeter uses [Cake](https://cakebuild.net) to build, test and package. You can run this on both Windows, Linux and macOS.
+
+On Windows:
+
+```PowerShell
+> .\build.ps1 -Target Build-Release -Configuration Release
+```
+
+On Linux/macOS:
+
+```bash
+> ./build.sh --target=Build-Release --configuration=Release
+```
+
+Note that on Linux, the `build.sh` script automatically installs dependencies through `apt-get` so YMMV on other Linuxes. 
+The dependencies it looks for are: `curl`, `unzip`, `dotnet` and `git`. If you already have them on your system you'll be fine.
+
+You can also run the build inside a docker container if you want. In that case do:
+
+```bash
+> docker run --rm -it -v c:\git\Voltmeter:/tmp/repo -w "/tmp/repo" ubuntu:18.04 ./build.sh --target=Build-Release --configuration=Release
+```
+This will create a binary release of Voltmeter in `/artifacts`
+
 ## Models
 
 | Model | Purpose |
