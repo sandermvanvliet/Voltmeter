@@ -9,6 +9,11 @@
         height: 768px;
         border: 1px solid lightgray;
     }
+    #nodeDetails {
+        border: 1px solid lightgray;
+        width: 300px;
+        height: 100px;
+    }
 </style>
 
 <h2>Overview of @Html.DropDownList(
@@ -22,18 +27,20 @@
 
 <div id="canvas"></div>
 
+<div id="nodeDetails"></div>
+
 @section Scripts
-    {
+{
     <script type="text/javascript">
         window.onload = function() {
-            var nodes = new vis.DataSet([
+            window.nodes = new vis.DataSet([
                 @foreach (var node in Model.Services)
                 {
-                    WriteLiteral($"{{ id: {node.Id}, label: '{node.Name}', level: {node.Level}, title: '{node.Info}'}},");
+                    WriteLiteral($"{{ id: {node.Id}, label: '{node.Name}', level: {node.Level}, title: '{node.Info}', url: '{node.Location}'}},");
                 }
             ]);
 
-            var edges = new vis.DataSet([
+            window.edges = new vis.DataSet([
                 @foreach (var edge in Model.Edges)
                 {
                     WriteLiteral($"{{ from: {edge.From}, to: {edge.To}, arrows:'to', color: {{ color: '{edge.Color}'}} }},");
@@ -46,28 +53,15 @@
                 edges: edges
             };
             var options = {
+                "layout": {
+                    "randomSeed": 2
+                },
                 "nodes": {
                     "borderWidth": 2,
-                    "color": {
-                        "highlight": {},
-                        "hover": {}
-                    },
                     "shape": "box"
                 },
                 "edges": {
                     "smooth": false
-                },
-                "layout": {
-                    "hierarchical": {
-                        "enabled": true,
-                        "levelSeparation": 170,
-                        "nodeSpacing": 825,
-                        "treeSpacing": 420,
-                        "blockShifting": false,
-                        "edgeMinimization": false,
-                        "direction": "LR",
-                        "sortMethod": "directed"
-                    }
                 },
                 "interaction": {
                     "dragNodes": false,
@@ -75,19 +69,42 @@
                 },
                 "physics": {
                     "hierarchicalRepulsion": {
-                        "centralGravity": 0
+                        "centralGravity": 0,
+                        "nodeDistance": 200
                     },
                     "minVelocity": 0.75,
                     "solver": "hierarchicalRepulsion"
                 }
             };
             var network = new vis.Network(container, data, options);
+            network.on("click",
+                function(data) {
+                    if (data.nodes.length === 1) {
+                        displayNodeInfo(data.nodes[0]);
+                    }
+                });
         };
 
         function environmentSelected(environment) {
             var targetLocation = window.location.origin + '/home/index/' + environment;
 
             window.location = targetLocation;
+        }
+
+        function displayNodeInfo(nodeId) {
+            console.log('displaying data for node ' + nodeId);
+            var node = nodes.get(nodeId);
+
+            if (!node.url || node.url.length < 1) {
+                return;
+            }
+
+            var req = new XMLHttpRequest();
+            req.onload = function (e) {
+                //document.getElementById("nodeDetails").innerHTML = e.target.responseText;
+            };
+            req.open("GET", "/home/nodedetails/?url=" + node.url);
+            req.send();
         }
     </script>
 }

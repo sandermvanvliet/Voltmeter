@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Voltmeter.Ports.Storage;
@@ -33,8 +34,6 @@ namespace Voltmeter.UI.Controllers
 
             var services = serviceModels.Concat(result.CreatedServices).ToArray();
 
-            ServiceLayout.ApplyTo(services, result.Edges);
-
             var model = new EnvironmentStatusModel
             {
                 Environment = environmentName,
@@ -44,6 +43,11 @@ namespace Voltmeter.UI.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult NodeDetails(string url)
+        {
+            return View(new ServiceStatus { Location = new Uri(url) });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
