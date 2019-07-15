@@ -66,14 +66,9 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Ports.Providers
 
         private static string GetDependencyName(HealthTest ht)
         {
-            if (ht.TestName == "http" && !string.IsNullOrWhiteSpace(ht.TestIdentifier))
-            {
-                return ht.TestIdentifier;
-            }
-
             if (!string.IsNullOrWhiteSpace(ht.TestIdentifier))
             {
-                return $"{ht.TestName}-{ht.TestIdentifier}";
+                return ht.TestIdentifier;
             }
 
             return ht.TestName;
