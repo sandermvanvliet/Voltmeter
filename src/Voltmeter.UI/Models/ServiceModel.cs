@@ -8,6 +8,7 @@ namespace Voltmeter.UI.Models
         public int  Level { get; set; }
         public string Color { get; set; }
         public string Info => $"{Name}<br/>{Location}";
+        public bool IsExternal { get; set; }
 
         public static ServiceModel[] FromStatuses(ServiceStatus[] statuses)
         {

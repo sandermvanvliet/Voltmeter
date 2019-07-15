@@ -27,7 +27,7 @@
 
 <div id="canvas"></div>
 
-<div id="nodeDetails"></div>
+@*<div id="nodeDetails"></div>*@
 
 @section Scripts
 {
@@ -36,7 +36,9 @@
             window.nodes = new vis.DataSet([
                 @foreach (var node in Model.Services)
                 {
-                    WriteLiteral($"{{ id: {node.Id}, label: '{node.Name}', level: {node.Level}, title: '{node.Info}', url: '{node.Location}'}},");
+                    var borderColor = node.IsExternal ? "#" : "#000000";
+                    var backgroundColor = node.IsExternal ? "#ffffff" : "";
+                    WriteLiteral($"{{ id: {node.Id}, label: '{node.Name}', level: {node.Level}, title: '{node.Info}', url: '{node.Location}', color: {{ border: '{borderColor}', background: '{backgroundColor}'}} }},");
                 }
             ]);
 

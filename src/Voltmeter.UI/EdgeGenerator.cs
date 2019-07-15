@@ -31,6 +31,7 @@ namespace Voltmeter.UI
                             Name = dependency.Name,
                             Environment = service.Environment,
                             Color = dependency.IsHealthy ? "#00ff00" : "#ff0000",
+                            IsExternal = true,
                             Dependencies = new DependencyStatus[0],
                             IsHealthy = dependency.IsHealthy
                         };
