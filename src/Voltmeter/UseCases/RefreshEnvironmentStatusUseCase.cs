@@ -49,7 +49,7 @@ namespace Voltmeter.UseCases
                     }
                     catch (Exception e)
                     {
-                        _logger.Error(e, "Could not refresh {@Service}", service);
+                        _logger.Error(e, "Could not refresh {Service}", service.Name);
                     }
                 }
 
@@ -60,7 +60,7 @@ namespace Voltmeter.UseCases
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Could not get status of {Environment}", environment);
+                _logger.Error(ex, "Could not get status of {Environment}", environment.Name);
                 // Swallow
             }
         }

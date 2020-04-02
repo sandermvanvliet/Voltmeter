@@ -98,7 +98,7 @@ namespace Voltmeter.Tests.Unit
                 .Appearing().Once()
                 .WithLevel(LogEventLevel.Error)
                 .WithProperty("Environment")
-                .WithValue(new Environment().ToString());
+                .WithValue("some environment");
         }
 
         [Fact]

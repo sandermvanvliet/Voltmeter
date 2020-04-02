@@ -27,9 +27,16 @@ namespace Voltmeter.UseCases
 
             if (status != null)
             {
-                var dependencies = _dependenciesProvider.ProvideFor(service);
+                try
+                {
+                    var dependencies = _dependenciesProvider.ProvideFor(service);
 
-                status.Dependencies = dependencies;
+                    status.Dependencies = dependencies;
+                }
+                catch
+                {
+                    // Nop
+                }
             }
 
             return status;

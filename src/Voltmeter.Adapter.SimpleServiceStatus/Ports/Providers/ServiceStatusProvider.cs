@@ -22,17 +22,24 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Ports.Providers
 
             var canaryEndpoint = new Uri(service.Location, "/service/healthcheck/asg");
 
-            var response = _httpClient
-                .GetAsync(canaryEndpoint)
-                .GetAwaiter()
-                .GetResult();
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return ServiceStatus.HealthyFrom(service);
-            }
+                var response = _httpClient
+                    .GetAsync(canaryEndpoint)
+                    .GetAwaiter()
+                    .GetResult();
 
-            return ServiceStatus.UnhealthyFrom(service);
+                if (response.IsSuccessStatusCode)
+                {
+                    return ServiceStatus.HealthyFrom(service);
+                }
+
+                return ServiceStatus.UnhealthyFrom(service);
+            }
+            catch (Exception)
+            {
+                return ServiceStatus.UnhealthyFrom(service);
+            }
         }
     }
 }

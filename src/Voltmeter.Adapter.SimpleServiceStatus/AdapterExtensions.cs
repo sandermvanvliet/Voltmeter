@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ namespace Voltmeter.Adapter.SimpleServiceStatus
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Add("Client-Name", "Voltmeter");
                     client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("voltmeter", "1.0"));
+                    client.Timeout = TimeSpan.FromSeconds(1);
 
                     return client;
                 });
