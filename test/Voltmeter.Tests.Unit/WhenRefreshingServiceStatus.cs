@@ -51,9 +51,9 @@ namespace Voltmeter.Tests.Unit
             var status = WhenRefreshingStatus();
 
             status
-                .IsHealthy
+                .Health
                 .Should()
-                .BeTrue();
+                .Be(ServiceHealth.Healthy);
         }
 
         [Fact]

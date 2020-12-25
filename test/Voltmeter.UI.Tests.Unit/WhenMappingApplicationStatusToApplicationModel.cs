@@ -41,7 +41,7 @@ namespace Voltmeter.UI.Tests.Unit
         [Fact]
         public void GivenStatusWithHealthyState_ModelHasColorGreen()
         {
-            var status = new ServiceStatus { Name = "appOne", IsHealthy = true };
+            var status = new ServiceStatus { Name = "appOne", Health = ServiceHealth.Healthy };
 
             ServiceModel
                 .FromStatus(status)

@@ -59,9 +59,9 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Tests.Unit
             });
 
             result
-                .IsHealthy
+                .Health
                 .Should()
-                .BeTrue();
+                .Be(ServiceHealth.Healthy);
         }
 
         [Fact]
@@ -77,9 +77,9 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Tests.Unit
             });
 
             result
-                .IsHealthy
+                .Health
                 .Should()
-                .BeFalse();
+                .Be(ServiceHealth.Unhealthy);
         }
     }
 }

@@ -2,13 +2,22 @@
 {
     public class DependencyStatus : Dependency
     {
-        public bool  IsHealthy { get; set; }
+        public ServiceHealth Health { get; set; } = ServiceHealth.Unknown;
 
         public static DependencyStatus HealthyFrom(Dependency dependency)
         {
             return new DependencyStatus
             {
-                IsHealthy = true,
+                Health = ServiceHealth.Healthy,
+                Name = dependency.Name
+            };
+        }
+
+        public static DependencyStatus DegradedFrom(Dependency dependency)
+        {
+            return new DependencyStatus
+            {
+                Health = ServiceHealth.Degraded,
                 Name = dependency.Name
             };
         }
@@ -17,7 +26,7 @@
         {
             return new DependencyStatus
             {
-                IsHealthy = false,
+                Health = ServiceHealth.Unhealthy,
                 Name = dependency.Name
             };
         }
