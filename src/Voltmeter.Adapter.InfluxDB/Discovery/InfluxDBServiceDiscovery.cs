@@ -47,8 +47,7 @@ namespace Voltmeter.Adapter.InfluxDB.Discovery
                             .Select(r => new Service
                             {
                                 Environment = environment, 
-                                Name = $"{domain}-{r.Value.ToLower()}",
-                                Location = new Uri("https://tempuri.org")
+                                Name = $"{domain}-{r.Value.ToLower()}"
                             })
                             .ToList());
             }
