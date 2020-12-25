@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Voltmeter.Adapter.InfluxDB\Voltmeter.Adapter.InfluxDB.csproj" />
     <ProjectReference Include="..\Voltmeter.Adapter.SimpleServiceStatus\Voltmeter.Adapter.SimpleServiceStatus.csproj" />
     <ProjectReference Include="..\Voltmeter.Adapter.Static\Voltmeter.Adapter.Static.csproj" />
     <ProjectReference Include="..\Voltmeter\Voltmeter.csproj" />
