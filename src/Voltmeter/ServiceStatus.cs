@@ -37,5 +37,16 @@
                 Name = service.Name
             };
         }
+
+        public static ServiceStatus UnknownFrom(Service service)
+        {
+            return new ServiceStatus
+            {
+                Health = ServiceHealth.Unknown,
+                Environment = service.Environment,
+                Location = service.Location,
+                Name = service.Name
+            };
+        }
     }
 }

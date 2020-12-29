@@ -1,53 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Vibrant.InfluxDB.Client;
+using Voltmeter.Adapter.InfluxDB.Discovery;
 using Voltmeter.Ports.Providers;
 
 namespace Voltmeter.Adapter.InfluxDB.Providers
 {
-    public class ServiceStatusProvider : IServiceStatusProvider
+    internal class ServiceStatusProvider : IServiceStatusProvider
     {
-        private readonly IInfluxClient _client;
+        private readonly InfluxDbCache _cache;
 
-        public ServiceStatusProvider(IInfluxClient client)
+        public ServiceStatusProvider(InfluxDbCache cache)
         {
-            _client = client;
+            _cache = cache;
         }
 
         public ServiceStatus ProvideFor(Service service)
         {
-            var customer = service.Environment.Name.Split('-')[0];
-            var environment = service.Environment.Name.Split('-')[1];
-            var time = DateTime.UtcNow.AddMinutes(-4);
+            var environment = service.Environment.Name.Split('-')[0];
+            var customer = service.Environment.Name.Split('-')[1];
             var domain = service.Name.Split('-')[0];
             var serviceName = service.Name.Split('-')[1];
 
-            var query =
-                $"select value from \"health_test.self_status.count\" where \"jedlix.environment\"='{environment}' AND \"jedlix.customer\"='{customer}' AND time>'{time:yyyy-MM-ddTHH:mm:ssZ}' AND \"jedlix.name\"='{serviceName}' AND \"jedlix.domain\"='{domain}' ORDER BY time DESC LIMIT 5";
-                
-            var result = _client
-                .ReadAsync<HealthTestMeasurement>("metrics", query)
-                .GetAwaiter()
-                .GetResult();
+            var current = _cache.Get<List<SelfTestMeasurement>>("self_tests");
 
-            if (result.Results.Count > 0 && result.Results[0].Succeeded)
+            if (current == null)
             {
-                var averageHealth = result
-                    .Results[0]
-                    .Series[0]
-                    .Rows
-                    .Select(r => r.Value)
-                    .Average();
+                return ServiceStatus.UnknownFrom(service);
+            }
 
-                if (Math.Abs(averageHealth - 1) < 0.01)
-                {
-                    return ServiceStatus.HealthyFrom(service);
-                }
+            var matches = current
+                .Where(c => c.Customer == customer &&
+                            c.Environment == environment &&
+                            c.Domain == domain &&
+                            c.Name == serviceName)
+                .ToList();
 
-                if (averageHealth >= 0.75)
-                {
-                    return ServiceStatus.DegradedFrom(service);
-                }
+            double averageHealth = 0;
+
+            if (matches.Any())
+            {
+                averageHealth = matches.Average(c => c.Value);
+            }
+
+
+            if (Math.Abs(averageHealth - 1) < 0.01)
+            {
+                return ServiceStatus.HealthyFrom(service);
+            }
+
+            if (averageHealth >= 0.75)
+            {
+                return ServiceStatus.DegradedFrom(service);
             }
 
             return ServiceStatus.UnhealthyFrom(service);

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Serilog;
 using Vibrant.InfluxDB.Client;
-using Vibrant.InfluxDB.Client.Rows;
 using Voltmeter.Ports.Discovery;
 
 namespace Voltmeter.Adapter.InfluxDB.Discovery
@@ -10,58 +9,63 @@ namespace Voltmeter.Adapter.InfluxDB.Discovery
     internal class InfluxDBEnvironmentDiscovery : IEnvironmentDiscovery
     {
         private readonly IInfluxClient _client;
+        private readonly ILogger _logger;
+        private readonly InfluxDbCache _cache;
 
-        public InfluxDBEnvironmentDiscovery(IInfluxClient client)
+        public InfluxDBEnvironmentDiscovery(IInfluxClient client, ILogger logger, InfluxDbCache cache)
         {
             _client = client;
+            _logger = logger;
+            _cache = cache;
         }
 
         public Environment[] Discover()
         {
             try
             {
+                var time = DateTime.UtcNow.AddMinutes(-10);
+
+                var query =
+                    $"select value, \"jedlix.environment\", \"jedlix.customer\", \"jedlix.name\", \"jedlix.domain\" from \"health_test.self_status.count\" where time > '{time:yyyy-MM-ddTHH:mm:ssZ}'";
+
                 var result = _client
-                    .ShowTagValuesAsync("metrics", "jedlix.environment", "health_test.self_status.count")
+                    .ReadAsync<SelfTestMeasurement>("metrics", query)
                     .GetAwaiter()
                     .GetResult();
 
-                var environmentNames = result
-                    .Series[0]
-                    .Rows
-                    .Select(tv => tv.Value)
-                    .ToArray();
-
-                var environments = new List<Environment>();
-
-                foreach (var environment in environmentNames)
+                if (!result.Results.Any() || !result.Results[0].Succeeded)
                 {
-                    var query =
-                        $"show tag values from \"health_test.self_status.count\" with key=\"jedlix.customer\" where \"jedlix.environment\"='{environment}'";
-                    
-                    var values = _client
-                        .ReadAsync<TagValueRow>("metrics",query)
-                        .GetAwaiter()
-                        .GetResult();
+                    if (result.Results.Any())
+                    {
+                        _logger.Warning("InfluxDB query failed: {Reason}", result.Results[0].ErrorMessage);
+                    }
+                    else
+                    {
+                        _logger.Warning("InfluxDB query failed");
+                    }
 
-                    var customers = values
-                        .Results[0]
-                        .Series[0]
-                        .Rows
-                        .Select(tv => new Environment
-                        {
-                            Name = $"{environment}-{tv.Value.ToLower()}"
-                        })
-                        .ToArray();
-
-                    environments.AddRange(customers);
+                    return new Environment[0];
                 }
 
-                return environments.ToArray();
+                var current = result
+                    .Results[0]
+                    .Series[0]
+                    .Rows
+                    .ToList();
+
+                _cache.Store("self_tests", current);
+
+                return current
+                    .Select(c => $"{c.Environment.ToLower()}-{c.Customer.ToLower()}")
+                    .Distinct()
+                    .Select(e => new Environment {Name = e})
+                    .ToArray();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                _logger.Warning(ex, "InfluxDB query failed");
+
+                return new Environment[0];
             }
         }
     }

@@ -40,6 +40,9 @@ namespace Voltmeter.Adapter.InfluxDB
                 });
 
             serviceCollection
+                .AddSingleton(new InfluxDbCache());
+
+            serviceCollection
                 .AddTransient<IEnvironmentDiscovery, InfluxDBEnvironmentDiscovery>()
                 .AddTransient<IServiceDiscovery, InfluxDBServiceDiscovery>()
                 .AddTransient<IServiceStatusProvider, ServiceStatusProvider>()
