@@ -66,7 +66,7 @@ namespace Voltmeter.UI
                 case ServiceHealth.Healthy:
                     return "#00ff00";
                 case ServiceHealth.Degraded:
-                    return "##ff7f00";
+                        return "#ff7f00";
                 default:
                     return "#ff0000";
             }

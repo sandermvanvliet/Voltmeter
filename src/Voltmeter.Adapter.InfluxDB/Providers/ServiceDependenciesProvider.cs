@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vibrant.InfluxDB.Client;
+using Voltmeter.Adapter.InfluxDB.Discovery;
 using Voltmeter.Ports.Providers;
 
 namespace Voltmeter.Adapter.InfluxDB.Providers
@@ -24,14 +25,15 @@ namespace Voltmeter.Adapter.InfluxDB.Providers
                 return new DependencyStatus[0];
             }
 
-            var time = DateTime.UtcNow.AddMinutes(-10);
+            var timeUpper = DateTimeProvider.UtcNow();
+            var timeLower = timeUpper.AddMinutes(-10);
 
             var domain = parts[0];
             var name = parts[1];
             var environmentName = service.Environment.Name.Split('-')[0];
             var customerName = service.Environment.Name.Split('-')[1];
-
-            var query = $"select value, test from \"health_test.test.count\" where \"jedlix.domain\"='{domain}' AND \"jedlix.name\"='{name}' AND \"jedlix.environment\"='{environmentName}' AND \"jedlix.customer\"='{customerName}' AND time > '{time:yyyy-MM-ddTHH:mm:ssZ}'";
+            
+            var query = $"select value, test, success from \"health_test.test.count\" where \"jedlix.domain\"='{domain}' AND \"jedlix.name\"='{name}' AND \"jedlix.environment\"='{environmentName}' AND \"jedlix.customer\"='{customerName}' AND time > '{timeLower:yyyy-MM-ddTHH:mm:ssZ}' AND time < '{timeUpper:yyyy-MM-ddTHH:mm:ssZ}'";
             var values = _client
                 .ReadAsync<HealthTestMeasurement>("metrics", query)
                 .GetAwaiter()
@@ -45,7 +47,7 @@ namespace Voltmeter.Adapter.InfluxDB.Providers
                     .Rows
                     .GroupBy(
                         m => m.Test,
-                        m => m.Value,
+                        m => m.Success ? 1 : 0,
                         (key, healthValues) => new DependencyStatus
                         {
                             Name = key,
@@ -68,7 +70,7 @@ namespace Voltmeter.Adapter.InfluxDB.Providers
                     return ServiceHealth.Healthy;
                 }
 
-                if (averageHealth >= 0.75)
+                if (averageHealth >= 0.65)
                 {
                     return ServiceHealth.Degraded;
                 }

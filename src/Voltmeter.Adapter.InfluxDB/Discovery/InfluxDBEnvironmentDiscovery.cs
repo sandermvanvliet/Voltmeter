@@ -23,10 +23,11 @@ namespace Voltmeter.Adapter.InfluxDB.Discovery
         {
             try
             {
-                var time = DateTime.UtcNow.AddMinutes(-10);
+                var timeUpper = DateTimeProvider.UtcNow();
+                var timeLower = timeUpper.AddMinutes(-10);
 
                 var query =
-                    $"select value, \"jedlix.environment\", \"jedlix.customer\", \"jedlix.name\", \"jedlix.domain\" from \"health_test.self_status.count\" where time > '{time:yyyy-MM-ddTHH:mm:ssZ}'";
+                    $"select value, \"jedlix.environment\", \"jedlix.customer\", \"jedlix.name\", \"jedlix.domain\" from \"health_test.self_status.count\" where time > '{timeLower:yyyy-MM-ddTHH:mm:ssZ}' AND time < '{timeUpper:yyyy-MM-ddTHH:mm:ssZ}'";
 
                 var result = _client
                     .ReadAsync<SelfTestMeasurement>("metrics", query)

@@ -11,5 +11,9 @@ namespace Voltmeter.Adapter.InfluxDB.Providers
         public int Value { get; set; }
         [InfluxTag("test")] 
         public string Test { get; set; }
+        [InfluxTag("success")] 
+        public string SuccessTag { get; set; }
+
+        public bool Success => "true".Equals(SuccessTag, StringComparison.OrdinalIgnoreCase);
     }
 }
