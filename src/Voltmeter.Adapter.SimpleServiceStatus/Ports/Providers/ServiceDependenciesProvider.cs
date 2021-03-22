@@ -59,7 +59,7 @@ namespace Voltmeter.Adapter.SimpleServiceStatus.Ports.Providers
                     new DependencyStatus
                     {
                         Name = GetDependencyName(ht),
-                        IsHealthy = ht.TestResult == "passed"
+                        Health = ht.TestResult == "passed" ? ServiceHealth.Healthy : ServiceHealth.Unhealthy
                     })
                 .ToArray();
         }

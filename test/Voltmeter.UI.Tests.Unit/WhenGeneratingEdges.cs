@@ -28,7 +28,7 @@ namespace Voltmeter.UI.Tests.Unit
         {
             var serviceOne = new ServiceModel {Name = "one", Dependencies = new []
             {
-                new DependencyStatus{ IsHealthy = true, Name = "two" }
+                new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "two" }
             }};
             var serviceTwo = new ServiceModel { Name = "two", Id = 2 };
 
@@ -56,7 +56,7 @@ namespace Voltmeter.UI.Tests.Unit
                 Name = "one",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 }
             };
             var serviceTwo = new ServiceModel { Name = "two", Id = 2 };
@@ -85,7 +85,7 @@ namespace Voltmeter.UI.Tests.Unit
                 Name = "one",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 }
             };
             var serviceTwo = new ServiceModel { Name = "two", Id = 2 };
@@ -112,7 +112,7 @@ namespace Voltmeter.UI.Tests.Unit
                 Name = "one",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 }
             };
             var serviceTwo = new ServiceModel { Name = "two", Id = 2 };
@@ -143,14 +143,14 @@ namespace Voltmeter.UI.Tests.Unit
                 Name = "one",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 },
                 Id = 1
             };
             var serviceTwo = new ServiceModel { Name = "two",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 },
                 Id = 2
             };
@@ -177,7 +177,7 @@ namespace Voltmeter.UI.Tests.Unit
                 Name = "one",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 },
                 Id = 1
             };
@@ -186,7 +186,7 @@ namespace Voltmeter.UI.Tests.Unit
                 Name = "two",
                 Dependencies = new[]
                 {
-                    new DependencyStatus{ IsHealthy = true, Name = "some other service" }
+                    new DependencyStatus{ Health = ServiceHealth.Healthy, Name = "some other service" }
                 },
                 Id = 2
             };

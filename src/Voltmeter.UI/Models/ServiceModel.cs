@@ -28,10 +28,10 @@ namespace Voltmeter.UI.Models
             {
                 Environment = serviceStatus.Environment,
                 Dependencies = serviceStatus.Dependencies,
-                IsHealthy = serviceStatus.IsHealthy,
+                Health = serviceStatus.Health,
                 Location = serviceStatus.Location,
                 Name = serviceStatus.Name,
-                Color = serviceStatus.IsHealthy ? "#00ff00" : "#ff0000"
+                Color = EdgeGenerator.ColorForHealthStatus(serviceStatus.Health)
             };
         }
     }

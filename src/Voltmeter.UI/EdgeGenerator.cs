@@ -30,10 +30,10 @@ namespace Voltmeter.UI
                             Id = services.Length + createdServices.Count + 1,
                             Name = dependency.Name,
                             Environment = service.Environment,
-                            Color = dependency.IsHealthy ? "#00ff00" : "#ff0000",
+                            Color = ColorForHealthStatus(dependency.Health),
                             IsExternal = true,
                             Dependencies = new DependencyStatus[0],
-                            IsHealthy = dependency.IsHealthy
+                            Health = dependency.Health
                         };
 
                         createdServices.Add(match);
@@ -43,7 +43,7 @@ namespace Voltmeter.UI
                     {
                         From = service.Id,
                         To = match.Id,
-                        Color = dependency.IsHealthy ? "#00ff00" : "#ff0000"
+                        Color = ColorForHealthStatus(dependency.Health)
                     };
 
                     edges.Add(edge);
@@ -55,6 +55,21 @@ namespace Voltmeter.UI
                 Edges = edges,
                 CreatedServices = createdServices
             };
+        }
+
+        public static string ColorForHealthStatus(ServiceHealth dependencyHealth)
+        {
+            switch (dependencyHealth)
+            {
+                case ServiceHealth.Unknown:
+                    return "#cccccc";
+                case ServiceHealth.Healthy:
+                    return "#00ff00";
+                case ServiceHealth.Degraded:
+                        return "#ff7f00";
+                default:
+                    return "#ff0000";
+            }
         }
     }
 

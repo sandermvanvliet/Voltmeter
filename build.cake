@@ -10,6 +10,8 @@ var testAcceptanceProjectPattern = "./**/*.Tests.Acceptance.csproj";
 var isTfsBuild = (EnvironmentVariable("TF_BUILD") ?? "False").ToLower() == "true";
 var testLogger = isTfsBuild ? "trx" : "console;verbosity=normal";
 var buildNumber = EnvironmentVariable("Build.BuildNumber") ?? "1.0";
+var containerRegistry = "sandermvanvliet";
+var tag = "voltmeter";
 
 void RunTests(string projectGlob)
 {
@@ -96,7 +98,8 @@ Task("Build")
 
 Task("Package")
 	.IsDependentOn("Package-Prerequisites")
-	.IsDependentOn("Package-Api");
+	.IsDependentOn("Package-Api")
+	.IsDependentOn("Package-Docker");
 
 Task("Package-Prerequisites")
 	.Does(() => {
@@ -137,11 +140,23 @@ Task("Package-Docker")
 		var settings = new DockerImageBuildSettings 
 		{
 			File = "Dockerfile",
-			Tag = new [] { "voltmeter:" + buildNumber }
+			Tag = new [] {
+				containerRegistry + "/" + tag + ":" + buildNumber,
+				containerRegistry + "/" + tag + ":latest"
+			}
 		};
 		
 		DockerBuild(settings, Environment.CurrentDirectory);
 });
+
+Task("Publish")
+	.IsDependentOn("Publish-Docker");
+
+Task("Publish-Docker")
+	.Does(() => {
+		DockerPush(containerRegistry + "/" + tag + ":" + buildNumber);
+		DockerPush(containerRegistry + "/" + tag + ":latest");
+	});
 
 Task("Test-Unit")
   .Does(() => {
@@ -189,7 +204,8 @@ Task("Build-Release")
 	.IsDependentOn("Restore")
 	.IsDependentOn("Build")
 	.IsDependentOn("Test-Unit")
-	.IsDependentOn("Package");
+	.IsDependentOn("Package")
+	.IsDependentOn("Publish");
 
 Task("Demand-ForBuild")
 	.IsDependentOn("Demand-NetCoreSdk21");
